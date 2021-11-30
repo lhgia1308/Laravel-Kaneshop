@@ -1,0 +1,15 @@
+<?php return array (
+  'all_categories' => 'All Categories',
+  'all_category' => 'All Category',
+  'categories' => 'Danh mục',
+  'category' => 'Category',
+  'Category' => 'Category',
+  'category_form' => 'Category Form',
+  'category_management' => 'Category Management',
+  'category_table' => 'Category Table',
+  'select_category_name' => 'Select Category Name',
+  'select_sub_category_name' => 'Select Sub Category Name',
+  'web_font_setup' => 'Cấu hình Font',
+  'font' => 'Font',
+  'font_size' => 'Default Font Size',
+);
