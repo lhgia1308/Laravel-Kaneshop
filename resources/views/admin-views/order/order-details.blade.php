@@ -64,7 +64,11 @@
                     <div class="col-md-6 mt-2">
                         <a class="text-body mr-3" target="_blank"
                            href={{route('admin.orders.generate-invoice',[$order['id']])}}>
-                            <i class="tio-print mr-1"></i> {{trans('messages.Print')}} {{trans('messages.invoice')}}
+                            <i class="tio-print mr-1"></i> {{trans('messages.download')}} {{trans('messages.invoice')}}
+                        </a>
+                        <a class="text-body mr-3" target="_blank"
+                           href={{route('admin.orders.view_invoice',[$order['id']])}}>
+                            <i class="tio-print mr-1"></i> {{trans('messages.View')}} {{trans('messages.invoice')}}
                         </a>
                     </div>
 

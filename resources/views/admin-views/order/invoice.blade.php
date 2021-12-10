@@ -2,14 +2,14 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Invoice</title>
-    <meta http-equiv="Content-Type" content="text/html;"/>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap" rel="stylesheet" /> -->
     <style media="all">
         * {
             margin: 0;
             padding: 0;
             line-height: 1.3;
-            font-family: sans-serif;
+            /* font-family: sans-serif; */
             color: #333542;
         }
 
@@ -85,7 +85,7 @@
         }
 
         .customers {
-            font-family: Arial, Helvetica, sans-serif;
+            /* font-family: Arial, Helvetica, sans-serif; */
             border-collapse: collapse;
             width: 100%;
         }
@@ -119,7 +119,7 @@
         }
 
         .table-total {
-            font-family: Arial, Helvetica, sans-serif;
+            /* font-family: Arial, Helvetica, sans-serif; */
         }
 
         .table-total th, td {
@@ -200,8 +200,8 @@
                     <div style="float: left;padding: 15px">
                         <img height="70" width="200" src="{{asset("storage/app/public/company/$company_web_logo")}}"
                              alt="">
-                        <p style="margin-bottom: 0px;">Ph:{{$company_phone}}</p>
-                        <p style="margin-top: 5px; margin-bottom: 0px;" >Email:{{$company_email}}</p>
+                        <p style="margin-bottom: 0px;">{{trans('messages.Phone')}}:{{$company_phone}}</p>
+                        <p style="margin-top: 5px; margin-bottom: 0px;" >{{trans('messages.Email')}}:{{$company_email}}</p>
                     </div>
                     <div style="float: right;padding: 0 15px 15px 15px">
                         <h1 style="color: #030303; margin-bottom: 0px; margin-left:40%;">INVOICE</h1>
@@ -258,8 +258,8 @@
     <div class="col-12 content-height" style="">
         <table class="customers">
             <tr class="for-th">
-                <th class="for-th">No.</th>
-                <th class="for-th">Item Description</th>
+                <th class="for-th">{{trans('messages.No')}}</th>
+                <th class="for-th">Item Description111</th>
                 <th class="for-th">Variation</th>
                 <th class="for-th">Unit Price</th>
                 <th class="for-th">Qty</th>

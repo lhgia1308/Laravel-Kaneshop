@@ -526,7 +526,16 @@
                                 </a>
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
                                     style="display: {{Request::is('admin/business-settings/language*')?'block':'none'}}">
-                                    <li class="nav-item {{Request::is('admin/business-settings/language-app')?'active':''}}">
+                                    <li class="nav-item {{Request::is('admin/business-settings/language/manage')?'active':''}}">
+                                        <a class="nav-link"
+                                           href="{{route('admin.business-settings.language.index-manage')}}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">
+                                              {{trans('messages.languages')}}
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item {{Request::is('admin/business-settings/language/app')?'active':''}}">
                                         <a class="nav-link"
                                            href="{{route('admin.business-settings.language.index-app')}}">
                                             <span class="tio-circle nav-indicator-icon"></span>

@@ -114,9 +114,17 @@
             <div>
                 @php
                     $locale = session()->get('locale') ;
+                    /* var_dump(['local_before'=>$locale]); */
                     if ($locale==""){
+                        $default_language = \App\Model\BusinessSetting::where('type','default_language')->first();
                         $locale = "en";
+                        if(isset($default_language)){
+                            $locale = json_decode($default_language['value'],true)['default_language'];
+                            /* var_dump($locale); */
+                        }
                     }
+                    /* var_dump(['local_affter'=>$locale]); */
+                    App::setLocale($locale);
                     \App\CPU\Helpers::currency_load();
                     $currency_code = session('currency_code');
                     $currency_symbol= session('currency_symbol');
@@ -126,6 +134,7 @@
                         $currency_symbol = $system_default_currency_info->symbol;
                         $currency_code = $system_default_currency_info->code;
                     }
+                    
                     $language=\App\CPU\Helpers::language_load();
                     $company_phone =$web_config['phone']->value;
                     $company_name =$web_config['name']->value;
@@ -138,7 +147,7 @@
                             @if($data['code']==$locale)
                                 <img class="mr-2" width="20"
                                      src="{{asset('public/assets/front-end')}}/img/flags/{{$data['code']}}.png"
-                                     alt="Eng">
+                                     alt="Eng123">
                                 {{$data['name']}}
                             @endif
                         @endforeach
@@ -151,7 +160,7 @@
                                         <img class="mr-2" width="20"
                                              src="{{asset('public/assets/front-end')}}/img/flags/{{$data['code']}}.png"
                                              alt="{{$data['name']}}"/>
-                                        <span style="text-transform: uppercase">{{$data['code']}}</span>
+                                        <span>{{$data['name']}}</span>
                                     </a>
                                 </li>
                             @endif
@@ -346,7 +355,7 @@
                                                     <img src="{{asset("storage/app/public/category/$category->icon")}}"
                                                          onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
                                                          style="width: 18px; height: 18px; ">
-                                                    <span class="pl-3">{{$category['name']}}</span>
+                                                    <span class="pl-3">{{ $category['name'] }}</span>
                                                 </a>
                                                 @if($category->childes->count()>0)
                                                     <ul class="dropdown-menu">

@@ -64,6 +64,10 @@
             border-radius: 50%;
         }
 
+        .error {
+            color: red;
+        }
+
     </style>
 @endpush
 
@@ -83,7 +87,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h5>{{trans('messages.language_table')}}</h5>
-                        <button class="btn btn-primary btn-icon-split float-right" data-toggle="modal"
+                        <button id="btnAddLanguage" class="btn btn-primary btn-icon-split float-right" data-toggle="modal"
                                 data-target="#lang-modal">
                             <i class="tio-add-circle"></i>
                             <span class="text">{{trans('messages.add_new_language')}}</span>
@@ -96,38 +100,24 @@
                                 <tr>
                                     <th scope="col">{{ trans('messages.SL#')}}</th>
                                     <th scope="col">{{trans('messages.Id')}}</th>
+                                    <th scope="col">{{trans('messages.Code')}}</th>
                                     <th scope="col">{{trans('messages.name')}}</th>
-                                    <th scope="col">{{trans('messages.Code')}}Code</th>
-                                    <th scope="col">{{trans('messages.status')}}</th>
+                                    <th scope="col">{{trans('messages.image')}}</th>
                                     <th scope="col" style="width: 100px" class="text-center">{{trans('messages.action')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @php
-                                    $language=App\Model\BusinessSetting::where('type','language')->first();
-                                    $default_language=App\Model\BusinessSetting::where('type','default_language')->first();
-                                    $default_lang_code = "en";
-                                    if(isset($default_language)){
-                                        $default_lang_code = json_decode($default_language['value'],true)['default_language'];
-                                    }
+                                    $language=App\Model\Language::orderBy('id','asc')->get();
                                 @endphp
-                                @foreach(json_decode($language['value'],true) as $key =>$data)
+                                @foreach($language as $key=>$data)
                                     <tr>
                                         <td>{{$key+1}}</td>
                                         <td>{{$data['id']}}</td>
                                         <td>{{$data['name']}}</td>
                                         <td>{{$data['code']}}</td>
                                         <td>
-                                            <label class="switch">
-                                                @if($data['code']!=$default_lang_code)
-                                                    <input type="checkbox"
-                                                            onclick="updateStatus('{{route('admin.business-settings.language.update-status')}}','{{$data['code']}}')"
-                                                            class="status" {{$data['status']==1?'checked':''}}>
-                                                    <span class="slider round"></span>
-                                                @else
-                                                <label class="badge-soft-success">Default</label>
-                                                @endif
-                                            </label>
+                                            <img src="{{ asset('storage/app/public/language') }}/{{ $data['image'] }}" alt="" width="32px">
                                         </td>
                                         <td class="text-center">
                                             <div class="dropdown float-right">
@@ -138,19 +128,14 @@
                                                         aria-expanded="false">
                                                     <i class="tio-settings"></i>
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    @if($data['code']!=$default_lang_code)
-                                                        @if($data['status']==1)
-                                                            <a class="dropdown-item"
-                                                                href="{{route('admin.business-settings.language.set_default_language',[$data['code']])}}">{{trans('messages.default_language')}}
-                                                            </a>
-                                                        @endif
-                                                        <button class="dropdown-item" onclick="deleteLanguage('{{route('admin.business-settings.language.delete',[$data['code']])}}')">
-                                                            {{trans('messages.Delete')}}
-                                                        </button>
-                                                    @endif
-                                                    <a class="dropdown-item"
-                                                        href="{{route('admin.business-settings.language.translate',[$data['code']])}}">{{trans('messages.Translate')}}</a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="text-align:center;">
+                                                    <button class="btn btn-icon-split dropdown-item" data-toggle="modal" data-target="#lang-modal" onclick="editLanguage('{{ route('admin.business-settings.language.edit_language') }}',
+                                                    {{ $data['id'] }})" >
+                                                        {{trans('messages.Edit')}}
+                                                    </button>
+                                                    <button class="dropdown-item" onclick="deleteLanguage({{ $data['id'] }})">
+                                                        {{trans('messages.Delete')}}
+                                                    </button>
                                                 </div>
                                             </div>
                                         </td>
@@ -169,39 +154,43 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{trans('messages.new_language')}}</h5>
+                        <h5 class="modal-title" id="formLanguageTitle">{{trans('messages.new_language')}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="{{route('admin.business-settings.language.add-new')}}" method="post">
+                    <form id="sign_up_language" action="{{route('admin.business-settings.language.add_new_language')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="recipient-name"
-                                       class="col-form-label">{{trans('messages.language')}} </label>
-                                <input type="text" class="form-control" id="recipient-name" name="name">
+                                    class="col-form-label force">{{trans('messages.language')}} </label>
+                                <input type="text" class="form-control" id="txtName" name="name">
                             </div>
                             <div class="form-group">
                                 <label for="message-text"
-                                       class="col-form-label">{{trans('messages.language_code')}}</label>
-                                <select class="form-control 1111" name="code">
-                                    @php
-                                        $lang = \App\Model\Language::orderBy('id','asc')->get();
-                                        $imgPath = asset('storage/app/public/language');
-                                    @endphp
-                                    @foreach($lang as $key=>$data)
-                                        <option value="{{$data['code']}}">
-                                            {{$data['name']}} - {{$data['code']}}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                    class="col-form-label force">{{trans('messages.language_code')}}</label>
+                                <input type="text" class="form-control" id="txtCode" name="code">
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label for="message-text" class="col-form-label">{{trans('messages.image')}}</label>
+                                </div>
+                                <center>
+                                    <img width="200" id="viewerImg"
+                                    onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                    >
+                                </center>
+                                <div class="col-12">
+                                    <input type="file" name="image" id="customFileUpload" class="custom-file-input" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                    <label class="custom-file-label" for="customFileUpload">{{trans('messages.choose')}} {{trans('messages.file')}}</label>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary"
                                     data-dismiss="modal">{{trans('messages.close')}}</button>
-                            <button type="submit" class="btn btn-primary">{{trans('messages.Add')}} <i
+                            <button type="submit" id="btnInsertLanguage" class="btn btn-primary">{{trans('messages.Add')}} <i
                                     class="fa fa-plus"></i></button>
                         </div>
                     </form>
@@ -221,9 +210,15 @@
         // Call the dataTables jQuery plugin
         $(document).ready(function () {
             $('#dataTable').DataTable();
+            setForce("#lang-modal .modal-body");
         });
 
-        function deleteLanguage(route) {
+        $('#btnAddLanguage').on('click', function(){
+            $('#formLanguageTitle').html('{{trans('messages.new_language')}}');
+            $('#btnInsertLanguage').html('{{trans('messages.add')}}');
+        });
+
+        function deleteLanguage(data) {
             Swal.fire({
                 title: 'Are you sure?',
                 text: '{{trans('messages.confirm_data_delete')}}',
@@ -240,7 +235,7 @@
                 if (result.value) {
                     $.ajax({
                         type: "GET",
-                        url: route,
+                        url: 'delete_language/' + data,
                         success: function(response) {
                             // console.log(response);
                             if(response.statusCode==200) {
@@ -248,6 +243,38 @@
                             }
                         }
                     });
+                }
+            });
+        }
+
+        function editLanguage(route, data){
+            var dataJson = {
+                language_id: data
+            };
+            // console.log("fafsd");
+            // return;
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: route,
+                dataType: "json",
+                data: dataJson,
+                success: function(response){
+                    // console.log(response);
+                    if(response.statusCode==200){
+                        $('#formLanguageTitle').html('{{trans('messages.update_language')}}');
+                        $('#btnInsertLanguage').html('{{trans('messages.update')}}');
+                        $('#txtName').val(response.language.name);
+                        $('#txtCode').val(response.language.code);
+                        $('#viewerImg').attr('src', response.language.image);
+                    }
+                },
+                error: function(e){
+                    console.log(e);
                 }
             });
         }
@@ -263,6 +290,51 @@
                     location.reload();
                 }
             });
+        }
+        $("#customFileUpload").change(function() {
+            if(this.files && this.files[0]){
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#viewerImg').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+        // $('#lang-modal').on('hidden.bs.modal', function () {
+        //     $('#viewerImg').removeAttr("src");
+        //     $('#customFileUpload').val('');
+        //     $('#txt_name').val('');
+        //     $('#txt_code').val('');
+        //     $("label.error").hide();
+        // });
+        $("#sign_up_language").validate({
+            rules: {
+                name: {
+                    required: true
+                },
+                code: {
+                    required: true
+                }
+            },
+            messages: {
+                name: {
+                    required: '{{trans('messages.require_name')}}'
+                },
+                code: {
+                    required: '{{trans('messages.require_code')}}'
+                }
+            },
+            submitHandle: function(form) {
+                form.submit();
+            }
+        });
+        function setForce(container){
+            $('.force').map(function(){
+                $(this).html($(this).html() + "<span style='color:red;'>(*)</span>");
+            });
+            $(container).append('<div style="color: red">Note: (*) are force.</div>');
         }
     </script>
 @endpush

@@ -85,14 +85,21 @@
                     <div>
                         <span>Sync language</span>
                         <span>
-                            
-                            <select name="languages_sel" id="languages_sel">
-                                <option value="vn">VN</option>
-                                <option value="en">EN</option>
+                            @php
+                                $language1=App\Model\BusinessSetting::where('type','language')->first();
+                            @endphp
+                            <select name="language_sel" id="language_sel">
+                            @foreach(json_decode($language1['value'],true) as $key =>$data)
+                                <option value="{{$data['code']}}">{{$data['code']}}-{{$data['name']}}</option>
+                            @endforeach
                             </select>
                         </span>
                         <span>
-                        <button type="submit">Sync</button>
+                            <button type="button" onclick="syncLanguage()">Sync</button>
+                        </span>
+                        <span>
+                            <input type="checkbox" id="sync_all_values" name="sync_all_values">
+                            <label for="sync_all_values">Sync all values</label>
                         </span>
                     </div>
                     <a href="{{route('admin.business-settings.language.index')}}" class="btn btn-sm btn-danger btn-icon-split float-right">
@@ -183,6 +190,45 @@
                 }
             });
         });
+        
+        function syncLanguage(){
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Bạn có muốn đồng bộ dữ liệu',
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: 'default',
+                confirmButtonColor: '#377dff',
+                cancelButtonText: 'No',
+                confirmButtonText: 'Yes',
+                reverseButtons: true
+            }).then((result) => {
+                // alert($('#sync_all_values').is(":checked"));
+                // return;
+                if (result.value) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                        }
+                    });
+                    var language_id = "{{$lang}}";
+                    $.ajax({
+                        url: "{{route('admin.business-settings.language.translate-sync')}}",
+                        method: 'POST',
+                        data: {
+                            language_id: language_id,
+                            language_sel_id: $('#language_sel').val(),
+                            sync_all_values: $('#sync_all_values').is(":checked")
+                        },
+                        success: function (response) {
+                            // console.log(response);
+                            toastr.success('Status updated successfully');
+                            location.reload();
+                        }
+                    });
+                }
+            })
+        }
     </script>
 
 @endpush

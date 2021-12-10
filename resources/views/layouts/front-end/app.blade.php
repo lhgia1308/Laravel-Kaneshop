@@ -636,6 +636,13 @@
 {!! Toastr::message() !!}
 
 <script>
+    $(function () {
+        $('.list-group-item').on('click', function () {
+            $('.glyphicon', this)
+                .toggleClass('glyphicon-chevron-right')
+                .toggleClass('glyphicon-chevron-down');
+        });
+    });
     function addWishlist(product_id) {
         $.ajaxSetup({
             headers: {
@@ -1127,11 +1134,11 @@
         }
     });
 
-    const img = document.getElementByTagName("img")
-    img.addEventListener("error", function(event) {
-        event.target.src = '{{asset('public/assets/front-end/img/image-place-holder.png')}}';
-        event.onerror = null
-    })
+    // const img = document.getElementByTagName("img");
+    // img.addEventListener("error", function(event) {
+    //     event.target.src = '{{asset('public/assets/front-end/img/image-place-holder.png')}}';
+    //     event.onerror = null
+    // });
 </script>
 @stack('script')
 

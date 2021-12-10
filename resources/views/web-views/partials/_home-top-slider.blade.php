@@ -138,7 +138,7 @@
 </div>
 
 
-<script>
+<!-- <script>
     $(function () {
         $('.list-group-item').on('click', function () {
             $('.glyphicon', this)
@@ -146,4 +146,4 @@
                 .toggleClass('glyphicon-chevron-down');
         });
     });
-</script>
+</script> -->

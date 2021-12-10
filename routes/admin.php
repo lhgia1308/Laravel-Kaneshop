@@ -294,11 +294,17 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::group(['prefix' => 'language', 'as' => 'language.','middleware'=>['module:business_settings']], function () {
                 Route::get('', 'LanguageController@index')->name('index');
                 Route::get('app', 'LanguageController@index_app')->name('index-app');
+                Route::get('manage', 'LanguageController@index_manage')->name('index-manage');
+                Route::post('edit_language', 'LanguageController@edit_language')->name('edit_language');
                 Route::post('add-new', 'LanguageController@store')->name('add-new');
+                Route::post('add_new_language', 'LanguageController@add_new_language')->name('add_new_language');
                 Route::get('update-status', 'LanguageController@update_status')->name('update-status');
                 Route::get('translate/{lang}', 'LanguageController@translate')->name('translate');
                 Route::post('translate-submit/{lang}', 'LanguageController@translate_submit')->name('translate-submit');
+                Route::post('translate-sync', 'LanguageController@translate_sync')->name('translate-sync');
+                Route::get('set_default_language/{lang}', 'LanguageController@set_default_language')->name('set_default_language');
                 Route::get('delete/{lang}', 'LanguageController@delete')->name('delete');
+                Route::get('delete_language/{lang}', 'LanguageController@delete_language')->name('delete_language');
             });
 
             Route::group(['prefix' => 'mail', 'as' => 'mail.','middleware'=>['module:web_&_app_settings']], function () {
@@ -346,9 +352,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::get('list/{status}', 'OrderController@list')->name('list');
             Route::get('details/{id}', 'OrderController@details')->name('details');
             Route::post('status', 'OrderController@status')->name('status');
+            Route::post('update_status', 'OrderController@update_status')->name('update_status');
             Route::post('payment-status', 'OrderController@payment_status')->name('payment-status');
             Route::post('productStatus', 'OrderController@productStatus')->name('productStatus');
             Route::get('generate-invoice/{id}', 'OrderController@generate_invoice')->name('generate-invoice');
+            Route::get('view_invoice/{id}', 'OrderController@view_invoice')->name('view_invoice');
             Route::get('inhouse-order-filter', 'OrderController@inhouse_order_filter')->name('inhouse-order-filter');
         });
 

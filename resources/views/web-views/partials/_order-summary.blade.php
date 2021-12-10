@@ -111,20 +111,20 @@
     <div class="container mt-3">
         <div class="row p-0">
             <div class="col-md-3 p-0 text-center mobile-padding">
-                <img style="height: 29px;" src="{{asset("storage/app/public/png/delivery.png")}}" alt="">
+                <img style="height: 29px;" src="{{asset("storage/app/png/delivery.png")}}" alt="">
                 <div class="deal-title">3 Days <br><span>Fast Delivery</span></div>
             </div>
 
             <div class="col-md-3 p-0 text-center">
-                <img style="height: 29px;" src="{{asset("storage/app/public/png/money.png")}}" alt="">
+                <img style="height: 29px;" src="{{asset("storage/app/png/money.png")}}" alt="">
                 <div class="deal-title">Money Back <br><span>Gurrantey</span></div>
             </div>
             <div class="col-md-3 p-0 text-center">
-                <img style="height: 29px;" src="{{asset("storage/app/public/png/Genuine.png")}}" alt="">
+                <img style="height: 29px;" src="{{asset("storage/app/png/Genuine.png")}}" alt="">
                 <div class="deal-title">100% Genuine<br><span>Product</span></div>
             </div>
             <div class="col-md-3 p-0 text-center">
-                <img style="height: 29px;" src="{{asset("storage/app/public/png/Payment.png")}}" alt="">
+                <img style="height: 29px;" src="{{asset("storage/app/png/Payment.png")}}" alt="">
                 <div class="deal-title">Authentic<br><span>Payment</span></div>
             </div>
         </div>

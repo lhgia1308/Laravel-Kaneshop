@@ -91,10 +91,11 @@
                 width: 400px !important;
                 margin-left: 0 !important;
             }
-
-
         }
-
+        .inv_update_info {
+            color: red;
+            font-weight: bold;
+        }
 
     </style>
 @endpush
@@ -160,8 +161,30 @@
                             <!-- End Search -->
                         </form>
                     </div>
-                    <div class="col-lg-3"></div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
+                        <span>
+                            <label for="">Status</label>
+                            <select id="sel_status" name="sel_status" class="">
+                                <option value="">--{{trans('messages.Choose')}}--</option>
+                                <option value="unpaid">Unpaid</option>
+                                <option value="paid">Paid</option>
+                            </select>
+                        </span>
+                        <span>
+                            <label for="">Order Status</label>
+                            <select id="sel_order_status" name="sel_order_status" class="">
+                                <option value="">--{{trans('messages.Choose')}}--</option>
+                                <option value="pending">Pending</option>
+                                <option value="processing">Processing</option>
+                                <option value="delivered">Delivered</option>
+                                <option value="failed">Failed</option>
+                            </select>
+                        </span>
+                        <span>
+                            <button id="update_status" onclick="update_status()" form="frm_update_status">Update status</button>
+                        </span>
+                    </div>
+                    <div class="col-lg-2">
                         <label> In-House orders only : </label>
                         <label class="switch ml-3">
                             <input type="checkbox" class="status"
@@ -197,6 +220,9 @@
                    }'>
                     <thead class="thead-light">
                     <tr>
+                        <th>
+                            <input type="checkbox" id="chk_all" />
+                        </th>
                         <th class="">
                             {{trans('messages.SL#')}}
                         </th>
@@ -214,6 +240,11 @@
                     @foreach($orders as $key=>$order)
 
                         <tr class="status-{{$order['order_status']}} class-all">
+                            <td>
+                                <!-- <form id="frm_update_status" action="{{route('admin.orders.update_status')}}" method="POST" role="form"> -->
+                                    <input type="checkbox" class="chk_id" value="{{$order['id']}}" />
+                                <!-- </form> -->
+                            </td>
                             <td class="">
                                 {{$key+1}}
                             </td>
@@ -266,7 +297,13 @@
                                 @endif
                             </td>
                             <td>
-                                <div class="dropdown">
+                                <a href="{{route('admin.orders.details',['id'=>$order['id']])}}">
+                                    <i class="tio-visible"></i> {{trans('messages.detail')}}
+                                </a>
+                                <a target="_blank" href="{{route('admin.orders.view_invoice',[$order['id']])}}">
+                                    <i class="tio-download"></i> {{trans('messages.View')}}
+                                </a>
+                                <!-- <div class="dropdown">
                                     <button class="btn btn-outline-secondary dropdown-toggle" type="button"
                                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                             aria-expanded="false">
@@ -275,12 +312,12 @@
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item"
                                            href="{{route('admin.orders.details',['id'=>$order['id']])}}"><i
-                                                class="tio-visible"></i> View</a>
+                                                class="tio-visible"></i> {{trans('messages.detail')}}</a>
                                         <a class="dropdown-item" target="_blank"
-                                           href="{{route('admin.orders.generate-invoice',[$order['id']])}}"><i
-                                                class="tio-download"></i> Invoice</a>
+                                           href="{{route('admin.orders.view_invoice',[$order['id']])}}"><i
+                                                class="tio-download"></i> {{trans('messages.View')}}</a>
                                     </div>
-                                </div>
+                                </div> -->
                             </td>
                         </tr>
 
@@ -389,10 +426,107 @@
             $('.js-tagify').each(function () {
                 var tagify = $.HSCore.components.HSTagify.init($(this));
             });
-        });
-    </script>
 
-    <script>
+            
+        });
+
+        var id_arr = [];
+
+        $('.chk_id').change((e) => {
+            // console.log(e.target.value, e.target.checked);
+            if(e.target.checked) {
+                id_arr.push(e.target.value);
+            }
+            else {
+                id_arr = id_arr.filter((item) => {
+                    return item != e.target.value;
+                });
+            }
+        });
+
+        $('#chk_all').change((e) => {
+            var ids = $('.chk_id');
+            
+            ids.map((index, item) => {
+                // console.log(item);
+                if(e.target.checked) {
+                    $(item).prop('checked', true);
+                    // console.log(item);
+                    id_arr.push($(item).val());
+                }
+                else {
+                    $(item).prop('checked', false);
+                    id_arr = [];
+                }
+            });
+        })
+
+        function update_status() 
+        {
+            var status = $('#sel_status').val();
+            var order_status = $('#sel_order_status').val();
+            if(id_arr.length!=0) {
+                if(status=="" && order_status=="") {
+                    Swal.fire({
+                        text: '{{trans('messages.require_choose')}} status or order status !',
+                        type: 'warning',
+                        confirmButtonColor: '#377dff',
+                        confirmButtonText: 'Yes',
+                        reverseButtons: true
+                    });
+                    return;
+                }
+                Swal.fire({
+                    title: 'Are you sure?',
+                    type: 'warning',
+                    html: "{{trans('messages.confirm_data_update')}}: " + 
+                    "<span class='inv_update_info'>" + id_arr.join() + "</span>"
+                    + " with"
+                    + " <span class='inv_update_info'>status: " + $('#sel_status').val() + "</span>"
+                    + ", <span class='inv_update_info'>order status: " + $('#sel_order_status').val() + "</span>"
+                    ,showCancelButton: true,
+                    cancelButtonColor: 'default',
+                    confirmButtonColor: '#377dff',
+                    cancelButtonText: 'No',
+                    confirmButtonText: 'Yes',
+                    reverseButtons: true,
+                    customClass: "Custom_Cancel"
+                }).then((result) => {
+                    // alert($('#sync_all_values').is(":checked"));
+                    // return;
+                    if (result.value) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            method: "POST",
+                            url: '{{route('admin.orders.update_status')}}',
+                            data: {
+                                "status": $('#sel_status').val(),
+                                "order_status": $('#sel_order_status').val(),
+                                "ids": id_arr
+                            },
+                            success: function(response) {
+                                // console.log(response);
+                                location.reload();
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                Swal.fire({
+                    text: '{{trans('messages.require_choose')}} {{trans('messages.invoice')}} !',
+                    type: 'warning',
+                    confirmButtonColor: '#377dff',
+                    confirmButtonText: 'Yes',
+                    reverseButtons: true
+                });
+            }
+        }
+
         function filter_order() {
             $.get({
                 url: '{{route('admin.orders.inhouse-order-filter')}}',

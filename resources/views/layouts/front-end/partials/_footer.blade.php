@@ -210,7 +210,7 @@
                                 <div class="mr-2 mb-2 pull-right">
                                     <a class="" href="{{ $config['link'] }}" role="button"><img
                                             style="height: 32px;"
-                                            src="{{asset("storage/app/public/png/apple_app.png")}}"
+                                            src="{{asset("storage/app/png/apple_app.png")}}"
                                             alt="">
                                     </a>
                                 </div>
@@ -222,7 +222,7 @@
                                 <div class="mr-2 mb-2 pull-left">
                                     <a class="" href="{{ $config['link'] }}" role="button"><img
                                             style="height: 32px;"
-                                            src="{{asset("storage/app/public/png/google_app.png")}}"
+                                            src="{{asset("storage/app/png/google_app.png")}}"
                                             alt=""></a>
                                 </div>
                             @endif

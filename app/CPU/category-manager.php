@@ -9,18 +9,23 @@ class CategoryManager
 {
     public static function parents()
     {
-        $x = Category::with(['childes.childes'])->where('position', 0)->get();
+        $x = Category::with(['childes'])->where(['position'=> 0])->get();
+        // echo "<prev>";
+        // var_dump($x);
+        // echo "</prev>";
         return $x;
     }
 
     public static function child($parent_id)
     {
+        // echo "cal CategoryManager child 2";
         $x = Category::where(['parent_id' => $parent_id])->get();
         return $x;
     }
 
     public static function products($category_id)
     {
+        // echo "cal CategoryManager products 3";
         $products = Product::active()->get();
         $product_ids = [];
         foreach ($products as $product) {

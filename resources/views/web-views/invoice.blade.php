@@ -268,7 +268,7 @@
     <div class="col-12 content-height" style="">
         <table class="customers">
             <tr class="for-th">
-                <th class="for-th">No.</th>
+                <th class="for-th">{{trans('messages.No')}}</th>
                 <th class="for-th">Item Description</th>
                 <th class="for-th">Variation</th>
                 <th class="for-th">Unit Price</th>

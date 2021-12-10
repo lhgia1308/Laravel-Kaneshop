@@ -3,8 +3,7 @@
 namespace App\CPU;
 
 
-class AsyncWebRequest extends \Thread
-{
+class AsyncWebRequest extends Thread {
     public function __construct($arg) {
         $this->arg = $arg;
     }

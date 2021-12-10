@@ -8,6 +8,10 @@ use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+use Ds\Map;
+use Illuminate\Support\Facades\DB;
+use App\Model\Language;
+use App\CPU\ImageManager;
 
 class LanguageController extends Controller
 {
@@ -22,6 +26,87 @@ class LanguageController extends Controller
         return view('admin-views.business-settings.language.index-app');
     }
 
+    public function index_manage()
+    {
+        return view('admin-views.business-settings.language.index-manage');
+    }
+
+    public function add_new_language(Request $request){
+        $language = Language::where('code',$request['code'])->first();
+        $img = ImageManager::update('language/', $language, 'png', $request->file('image'));
+
+        // var_dump(strtolower($request['name']));
+        // return;
+        $code = strtolower($request['code']);
+        if(isset($language)){
+            $data = [];
+            //Have update an img: 1/Deleting old img. 2/Pushing para into array
+            if($img != "def.png") {
+                //1/Deleting old img.
+                if($language['image']!="def.png") {
+                    unlink('storage/app/public/language/'.$language['image']);
+                }
+                //2/Pushing paras into array
+                $data = array_merge($data, array('name' => $request['name']));
+                $data = array_merge($data, array('image' => $img));
+            }
+            else {
+                $data = [
+                    'name' => $request['name'],
+                ];
+            }
+            Language::where('code',$request['code'])->update($data);
+        }
+        else {
+            DB::table('languages')->insert([
+                'code' => $code,
+                'name' => $request['name'],
+                'image' => $img
+            ]);
+        }
+        return back();
+    }
+
+    public function edit_language(Request $request){
+        $language = Language::where('id', $request['language_id'])->first();
+        // var_dump($language['name']);
+        // return;
+        if(isset($language)){
+            return response()->json([
+                'statusCode' => 200,
+                'language' => [
+                    'id' => $language['id'],
+                    'name' => $language['name'],
+                    'code' => $language['code'],
+                    'image' => asset('storage/app/public/language/'.$language['image']),
+                ]
+            ]);
+        }
+    }
+
+    public function delete_language($lang){
+        $lang = Language::where('id', $lang)->first();
+        //1/Delete file img. 2/Delete DB
+        if(isset($lang)) {
+            //1/Delete file img.
+            if($lang['image']!='def.png') {
+                unlink('storage/app/public/language/'.$lang['image']);
+            }
+            //2/Delete DB
+            $lang->delete();
+
+            return response()->json([
+                'statusCode' => 200,
+                'result' => 'success'
+            ]);
+        }
+        //return error
+        return response()->json([
+                'statusCode' => 404,
+                'result' => 'fail'
+            ]);
+    }
+
     public function store(Request $request)
     {
         $language = BusinessSetting::where('type', 'language')->first();
@@ -31,6 +116,10 @@ class LanguageController extends Controller
                 array_push($lang_array, $data);
             }
         }
+        $lang_arr = json_decode($language['value'], true);
+        $ids = array_map(fn($lang): int => $lang['id'], $lang_arr);
+        // var_dump(max($ids));
+        // return;
 
         if (!file_exists(base_path('resources/lang/' . $request['code']))) {
             mkdir(base_path('resources/lang/' . $request['code']), 0777, true);
@@ -41,7 +130,7 @@ class LanguageController extends Controller
         fwrite($lang_file, $read);
 
         array_push($lang_array, [
-            'id' => count(json_decode($language['value'], true)) + 1,
+            'id' => max($ids) + 1,
             'name' => $request['name'],
             'code' => $request['code'],
             'status' => 0,
@@ -92,10 +181,74 @@ class LanguageController extends Controller
 
     public function translate_submit(Request $request, $lang)
     {
+        $ori_array = include(base_path('resources/lang/'.$lang.'/messages.php'));
         $data = array_combine($request['key'], $request['value']);
+        $data = array_replace($ori_array, $data);
+        // var_dump($data);
+        // return;
         $str = "<?php return " . var_export($data, true) . ";";
         file_put_contents(base_path('resources/lang/' . $lang . '/messages.php'), $str);
         Toastr::success('Translation file updated!');
+        return back();
+    }
+
+    public function translate_sync(Request $request){
+        $array = include(base_path('resources/lang/'.$request['language_sel_id'].'/messages.php'));
+        $array2 = include(base_path('resources/lang/'.$request['language_id'].'/messages.php'));
+        $sync_all_values = $request['sync_all_values'];
+
+        if($sync_all_values == 'true'){
+            $array2 = $array;
+        }
+        else {
+            $array_key_diff = array_diff(array_keys($array), array_keys($array2));
+            $array_diff=[];
+
+            foreach($array_key_diff as $key){
+                $array_diff = array_merge($array_diff, (array($key => "")));
+            }
+
+            $array2 = array_merge($array2,$array_diff);
+        }
+
+        // var_dump($array2);
+        // return;
+        
+        $str = "<?php return " . var_export($array2, true) . ";";
+        $rs = file_put_contents(base_path('resources/lang/' . $request['language_id'] . '/messages.php'), $str);
+        if($rs){
+            return response()->json([
+                'statusCode' => 200,
+                'amount_of_impact'=>$rs
+            ]);
+        }
+        else{
+            return response()->json([
+                'statusCode' => 404,
+                'amount_of_impact'=>$rs
+            ]);
+        }
+    }
+
+    public function set_default_language($lang){
+        $language = BusinessSetting::where('type','default_language')->first();
+        // var_dump($lang);
+        // var_dump($language);
+        // return;
+        if(isset($language)){
+            BusinessSetting::where('type','default_language')->update([
+                'value' => json_encode([
+                    'default_language' => $lang
+                ]),
+            ]);
+        } else {
+            DB::table('business_settings')->insert([
+                'type' => 'default_language',
+                'value' => json_encode([
+                    'default_language' => $lang
+                ]),
+            ]);
+        }
         return back();
     }
 
@@ -124,7 +277,10 @@ class LanguageController extends Controller
         }
         rmdir($dir);
 
-        Toastr::success('Removed Successfully!');
-        return back();
+        // Toastr::success('Removed Successfully!');
+        // return back();
+        return response()->json([
+            'statusCode' => 200,
+        ]);
     }
 }

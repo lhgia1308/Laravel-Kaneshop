@@ -16654,6 +16654,7 @@ var moment = createCommonjsModule(function (module, exports) {
 
     // returns locale data
     function getLocale (key) {
+		console.log('call getLocale');
         var locale;
 
         if (key && key._locale && key._locale._abbr) {

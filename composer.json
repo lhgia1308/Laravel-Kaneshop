@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "ext-curl": "*",
         "ext-zip": "*",
         "barryvdh/laravel-dompdf": "^0.8.6",
         "brian2694/laravel-toastr": "^5.54",
@@ -27,10 +28,10 @@
         "paypal/rest-api-sdk-php": "^1.14",
         "rap2hpoutre/fast-excel": "^3.0",
         "razorpay/razorpay": "^2.5",
+        "spipu/html2pdf": "^5.2",
         "stripe/stripe-php": "^7.77",
-        "unisharp/laravel-ckeditor": "*",
         "unicodeveloper/laravel-paystack": "^1.0",
-      "ext-curl": "*"
+        "unisharp/laravel-ckeditor": "*"
     },
     "require-dev": {
         "amirami/localizator": "^0.6.0@alpha",

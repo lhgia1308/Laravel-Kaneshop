@@ -65,6 +65,8 @@ class CategoryController extends Controller
     public function update(Request $request)
     {
         $category = Category::find($request->id);
+        // var_dump($request->lang);
+        // return;
         $category->name = $request->name[array_search('en', $request->lang)];
         $category->slug = Str::slug($request->name[array_search('en', $request->lang)]);
         if ($request->image) {

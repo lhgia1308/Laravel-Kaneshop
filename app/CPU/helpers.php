@@ -201,12 +201,13 @@ class Helpers
 
     public static function language_load()
     {
-        if (\session()->has('language_settings')) {
-            $language = \session('language_settings');
-        } else {
-            $language = BusinessSetting::where('type', 'language')->first();
-            \session()->put('language_settings', $language);
-        }
+        // if (\session()->has('language_settings')) {
+        //     $language = \session('language_settings');
+        // } else {
+        //     $language = BusinessSetting::where('type', 'language')->first();
+        //     \session()->put('language_settings', $language);
+        // }
+        $language = BusinessSetting::where('type', 'language')->first();
         return $language;
     }
 
@@ -589,7 +590,7 @@ class Helpers
             "ur" => "Urdu - اردو",
             "ug" => "Uyghur",
             "uz" => "Uzbek - o‘zbek",
-            "vi" => "Vietnamese - Tiếng Việt",
+            "vn" => "Vietnamese - Tiếng Việt",
             "wa" => "Walloon - wa",
             "cy" => "Welsh - Cymraeg",
             "fy" => "Western Frisian",

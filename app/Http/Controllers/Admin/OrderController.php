@@ -17,7 +17,10 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\App;
+use App\CPU\WorkerThread;
+use Illuminate\Support\Facades\Response;
+use Spipu\Html2Pdf\Html2Pdf;
 class OrderController extends Controller
 {
     public function list($status)
@@ -116,6 +119,30 @@ class OrderController extends Controller
         return response()->json($data);
     }
 
+    public function update_status(Request $request) {
+        if(count($request['ids']) > 0) {
+            // var_dump(count($id_arr));
+            foreach($request['ids'] as $id) {
+                $data = $data1 = [];
+
+                if($request['status']!="") {
+                    $data = array_merge($data, array('payment_status' => $request['status']));
+                    $data1 = array_merge($data1, array('payment_status' => $request['status']));
+                }
+                if($request['order_status']!="") {
+                    $data = array_merge($data, array('order_status' => $request['order_status']));
+                    $data1 = array_merge($data1, array('delivery_status' => $request['order_status']));
+                }
+                
+                Order::where('id', $id)->update($data);
+                OrderDetail::where('order_id', $id)->update($data1);
+            }
+        }
+        return response()->json([
+            'statusCode' => 200,
+        ]);
+    }
+
     public function generate_invoice($id)
     {
         $order = Order::with('shipping')->where('id', $id)->first();
@@ -127,6 +154,44 @@ class OrderController extends Controller
         //return view('admin-views.order.invoice', compact('order'));
         $pdf = PDF::loadView('admin-views.order.invoice', $data);
         return $pdf->download($order->id . '.pdf');
+    }
+
+    function view_invoice($id)
+    {
+        $pdf = App::make('dompdf.wrapper');
+        // var_dump($this->get_invoice_html($id));
+        // return;
+        // $html = "<p> Việt Lê </p>";
+        // $order1 = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+        // var_dump($order1);
+        // return;
+        // var_dump($pdf->loadHTML($this->get_invoice_html($id)));
+        // return;
+        // $pdf->loadHTML('<h1>Việt Lê</h1>')
+        //     ->setPaper('a4', 'portrait')//portrait, landscape
+        //     ->setWarnings(false)
+        //     ->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif', 'fontDir' => '/storage/fonts/']);
+        // return $pdf->stream('addf.pdf');
+    //     $html2pdf = new Html2Pdf();
+    //     $html2pdf->writeHTML('<h1 style="color:pink;">CodeWall PDF</h1> <br/> <p>Convert this HTML to PDF please!</p>');
+    //     $html2pdf->output('myPdf.pdf');
+    //     return; 
+    //     $filename = '100002.pdf';
+    //    var_dump($pdf->loadHTML(mb_convert_encoding('<h1>Việt Lê</h1>', 'HTML-ENTITIES', 'UTF-8')));
+    //     return;
+    //     return Response::make($pdf->loadHTML(mb_convert_encoding('<h1>Việt Lê</h1>', 'HTML-ENTITIES', 'UTF-8'))->stream(),
+    //      200, [
+    //         'Content-Type' => 'application/pdf',
+    //         'Content-Disposition' => 'inline; filename="'.$filename.'"'
+    //     ]);
+    }
+
+    function get_invoice_html($id)
+    {
+        $order = Order::with('shipping')->where('id', $id)->first();
+        // var_dump($order);
+        // return;
+        return view('admin-views.order.invoice', compact('order'));
     }
 
     public function inhouse_order_filter()

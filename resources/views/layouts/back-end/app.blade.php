@@ -327,9 +327,9 @@
 <script>CKEDITOR.replace('editor');</script>
 {{--ck editor--}}
 
-<script>
+<!-- <script>
     initSample();
-</script>
+</script> -->
 
 <script>
     $(document).ready(function () {
