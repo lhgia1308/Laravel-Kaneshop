@@ -1,3 +1,12 @@
+
+
+
+
+
+git remote add "Laravel_KaneShop" "https://gitlab.com/lhgia1308/laravel_kaneshop.git"
+and then push using the remote name
+git push "Laravel_KaneShop"
+
 //Fix error font dompdf
 php load_font.php "Times New Roman" G:/Sources/Laravel/fonts/times.ttf G:/Sources/Laravel/fonts/timesbd.ttf G:/Sources/Laravel/fonts/timesi.ttf G:/Sources/Laravel/fonts/timesbi.ttf
 // INITIALIZATION OF SELECT2
