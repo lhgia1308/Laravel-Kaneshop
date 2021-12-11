@@ -217,7 +217,7 @@
                                             </div>
 
                                             <div class="col col-md-1 align-self-center p-0 ">
-                                                <h6>{{\App\CPU\BackEndHelper::usd_to_currency($detail['price'])}}</h6>
+                                                <h6>{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($detail['price']))}}</h6>
                                             </div>
 
                                             <div class="col col-md-1 align-self-center">
@@ -226,12 +226,12 @@
                                             </div>
                                             <div class="col col-md-1 align-self-center  p-0 product-name">
 
-                                                <h5>{{\App\CPU\BackEndHelper::usd_to_currency($detail['tax'])}}</h5>
+                                                <h5>{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($detail['tax']))}}</h5>
                                             </div>
                                             <div class="col col-md-2 align-self-center  p-0 product-name">
 
                                                 <h5>
-                                                    - {{\App\CPU\BackEndHelper::usd_to_currency($detail['discount'])}}</h5>
+                                                    - {{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($detail['discount']))}}</h5>
                                             </div>
                                             <div class="col col-md-2 align-self-center  p-0">
                                                 <select name="delivery_status" class="product_status form-control small"

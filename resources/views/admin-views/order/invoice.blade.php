@@ -3,13 +3,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Invoice</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap" rel="stylesheet" /> -->
     <style media="all">
         * {
             margin: 0;
             padding: 0;
             line-height: 1.3;
-            /* font-family: sans-serif; */
+            /* font-family: "Firefly", DejaVu Sans, serif; */
+            font-family: DejaVu Sans ,sans-serif; /* The font support for Vietnamese */
             color: #333542;
         }
 
@@ -174,6 +174,7 @@
             margin: auto;
             text-align: center;
         }
+
     </style>
 </head>
 
@@ -258,7 +259,7 @@
     <div class="col-12 content-height" style="">
         <table class="customers">
             <tr class="for-th">
-                <th class="for-th">{{trans('messages.No')}}</th>
+                <th class="for-th">{{trans('messages.order_no')}}</th>
                 <th class="for-th">Item Description111</th>
                 <th class="for-th">Variation</th>
                 <th class="for-th">Unit Price</th>
@@ -280,9 +281,9 @@
                     <td class="for-tb">{{$key+1}}</td>
                     <td class="for-tb">{{$details['product']?$details['product']->name:''}}</td>
                     <td class="for-tb" style="color:{{$web_config['primary_color']}};">{{$details['variant'] }}</td>
-                    <td class="for-tb">{{\App\CPU\BackEndHelper::usd_to_currency($details['price'])}} {{\App\CPU\BackEndHelper::currency_code()}}</td>
+                    <td class="for-tb">{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($details['price']))}}</td>
                     <td class="for-tb">{{$details->qty}}</td>
-                    <td class="for-tb">{{\App\CPU\BackEndHelper::usd_to_currency($subtotal)}} {{\App\CPU\BackEndHelper::currency_code()}}</td>
+                    <td class="for-tb">{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($subtotal))}}</td>
                 </tr>
 
                 @php
@@ -304,28 +305,28 @@
 
         <tr>
             <th class="gry-color text-left strong bold">Sub Total</th>
-            <td>{{\App\CPU\BackEndHelper::usd_to_currency($sub_total)}} {{\App\CPU\BackEndHelper::currency_code()}}</td>
+            <td>{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($sub_total))}}</td>
 
         </tr>
         <tr>
             <th class="gry-color text-left strong bold">TAX</th>
-            <td>{{\App\CPU\BackEndHelper::usd_to_currency($total_tax)}} {{\App\CPU\BackEndHelper::currency_code()}}</td>
+            <td>{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($total_tax))}}</td>
         </tr>
         <tr>
             <th class="gry-color text-left strong bold">Shipping</th>
-            <td>{{\App\CPU\BackEndHelper::usd_to_currency($total_shipping_cost)}} {{\App\CPU\BackEndHelper::currency_code()}}</td>
+            <td>{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($total_shipping_cost))}}</td>
         </tr>
         <tr>
             <th class="gry-color text-left strong bold">Coupon Discount</th>
-            <td>- {{\App\CPU\BackEndHelper::usd_to_currency($order->discount)}} {{\App\CPU\BackEndHelper::currency_code()}}</td>
+            <td>- {{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($order->discount))}}</td>
         </tr>
         <tr class="border-bottom">
             <th class="gry-color text-left strong bold">Discount on Product</th>
-            <td>- {{\App\CPU\BackEndHelper::usd_to_currency($total_discount_on_product)}} {{\App\CPU\BackEndHelper::currency_code()}}</td>
+            <td>- {{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($total_discount_on_product))}}</td>
         </tr>
         <tr>
             <th class="gry-color text-left strong bold">Total</th>
-            <td class="bold">{{\App\CPU\BackEndHelper::usd_to_currency($order->order_amount)}} {{\App\CPU\BackEndHelper::currency_code()}}</td>
+            <td class="bold">{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($order->order_amount))}}</td>
         </tr>
         </tbody>
     </table>

@@ -19,6 +19,7 @@
         "guzzlehttp/guzzle": "6.5.5",
         "intervention/image": "^2.5",
         "laravel/framework": "^v6.20.27",
+        "laravel/installer": "^4.2",
         "laravel/passport": "^v7.5.1",
         "laravel/tinker": "^2.0",
         "laravelpkg/laravelchk": "dev-master",

@@ -25,6 +25,7 @@ class BackEndHelper
         $rate = $default['exchange_rate'] / $usd;
         $value = floatval($amount) * floatval($rate);
         return round($value,2);
+        // return number_format($value, 2, '.', ',');
     }
 
     public static function currency_symbol()
@@ -38,9 +39,9 @@ class BackEndHelper
     {
         $position = Helpers::get_business_settings('currency_symbol_position');
         if (!is_null($position) && $position == 'left') {
-            $string = currency_symbol() . '' . number_format($amount, 2);
+            $string = currency_symbol() . ' ' . number_format($amount, 2, ",", ".");
         } else {
-            $string = number_format($amount, 2) . '' . currency_symbol();
+            $string = number_format($amount, 2, ",", ".") . ' ' . currency_symbol();
         }
         return $string;
     }

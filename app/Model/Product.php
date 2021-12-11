@@ -91,20 +91,26 @@ class Product extends Model
         return $this->hasMany(Wishlist::class, 'product_id');
     }
 
-    /*public function getNameAttribute($name)
+    public function getNameAttribute($name)
     {
         if (auth('admin')->check() || auth('seller')->check()) {
             return $name;
         }
         return $this->translations[0]->value??$name;
-    }*/
+    }
 
     protected static function boot()
     {
         parent::boot();
         static::addGlobalScope('translate', function (Builder $builder) {
             $builder->with(['translations' => function ($query) {
-                return $query->where('locale', app()->getLocale());
+                $language = \App\Model\BusinessSetting::where('type','default_language')->first();
+                $default_language = 'en';
+                if(isset($language)){
+                    $default_language = json_decode($language['value'],true)['default_language'];
+                }
+                $locale = session()->get('locale')??$default_language;
+                return $query->where('locale', $locale);
             }]);
         });
     }

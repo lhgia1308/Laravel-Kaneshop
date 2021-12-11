@@ -159,38 +159,26 @@ class OrderController extends Controller
     function view_invoice($id)
     {
         $pdf = App::make('dompdf.wrapper');
-        // var_dump($this->get_invoice_html($id));
-        // return;
-        // $html = "<p> Việt Lê </p>";
-        // $order1 = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
-        // var_dump($order1);
-        // return;
-        // var_dump($pdf->loadHTML($this->get_invoice_html($id)));
-        // return;
-        // $pdf->loadHTML('<h1>Việt Lê</h1>')
-        //     ->setPaper('a4', 'portrait')//portrait, landscape
-        //     ->setWarnings(false)
-        //     ->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif', 'fontDir' => '/storage/fonts/']);
-        // return $pdf->stream('addf.pdf');
-    //     $html2pdf = new Html2Pdf();
-    //     $html2pdf->writeHTML('<h1 style="color:pink;">CodeWall PDF</h1> <br/> <p>Convert this HTML to PDF please!</p>');
-    //     $html2pdf->output('myPdf.pdf');
-    //     return; 
-    //     $filename = '100002.pdf';
-    //    var_dump($pdf->loadHTML(mb_convert_encoding('<h1>Việt Lê</h1>', 'HTML-ENTITIES', 'UTF-8')));
-    //     return;
-    //     return Response::make($pdf->loadHTML(mb_convert_encoding('<h1>Việt Lê</h1>', 'HTML-ENTITIES', 'UTF-8'))->stream(),
-    //      200, [
-    //         'Content-Type' => 'application/pdf',
-    //         'Content-Disposition' => 'inline; filename="'.$filename.'"'
-    //     ]);
+
+        $pdf->loadHTML($this->get_invoice_html($id))
+            ->setPaper('a4', 'portrait')//portrait, landscape
+            ->setWarnings(false);
+            // ->setOptions(['dpi' => 150]);
+
+        return $pdf->stream('inv_'.$id.'.pdf');
+
+        //2/The 2th way
+        // $html2pdf = new HTML2PDF('P', 'A4', 'en', true, 'UTF-8');
+        // // $html2pdf->setDefaultFont('arialunicid0'); //or cid0jp
+        // $html2pdf->pdf->SetDisplayMode('fullpage');
+        // $content = '<page style="font-family: DejaVu Sans, serif"><br />'.'<h1>Việt Lê</h1>'.'</page>';
+        // $html2pdf->writeHTML($content);
+        // $html2pdf->output($id.'.pdf');
     }
 
     function get_invoice_html($id)
     {
         $order = Order::with('shipping')->where('id', $id)->first();
-        // var_dump($order);
-        // return;
         return view('admin-views.order.invoice', compact('order'));
     }
 
