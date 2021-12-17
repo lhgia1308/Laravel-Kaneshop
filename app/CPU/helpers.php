@@ -645,11 +645,22 @@ class Helpers
 
     public static function set_symbol($amount)
     {
-        $position = Helpers::get_business_settings('currency_symbol_position');
+        $ss_currency_code = session('currency_code');
+        $ss_position = session('currency_position');
+        $position = "";
+        if(!isset($ss_position)) {
+            $position = Currency::where('code', $ss_currency_code)->first()->position;
+        }
+        else {
+            $position = $ss_position;
+        }
+        // var_dump($ss_currency_code);
+        // var_dump($position);
+        // $position = Helpers::get_business_settings('currency_symbol_position');
         if (!is_null($position) && $position == 'left') {
-            $string = currency_symbol() . '' . number_format($amount, 2);
+            $string = currency_symbol() . '' . number_format($amount, 2, ",", ".");
         } else {
-            $string = number_format($amount, 2) . '' . currency_symbol();
+            $string = number_format($amount, 2, ",", ".") . '' . currency_symbol();
         }
         return $string;
     }

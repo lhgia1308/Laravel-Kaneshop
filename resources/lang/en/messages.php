@@ -670,4 +670,10 @@
   'detail' => 'Detail',
   'download' => 'Download',
   'require_choose' => 'Please choose'
+  ,'position' => 'Position'
+  ,'config_default_statistic_type' => 'Config Default Statistic Type'
+  ,'statistic_type_list' => 'Statistic Type List'
+  ,'from_date' => 'From day'
+  ,'to_date' => 'To day'
+  ,'format_wrong' => 'Format wrong'
 );

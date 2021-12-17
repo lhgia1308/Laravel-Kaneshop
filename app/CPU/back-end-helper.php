@@ -35,13 +35,25 @@ class BackEndHelper
         return $currency->symbol;
     }
 
+    public static function currency_position()
+    {
+        $data = BusinessSetting::where('type', 'system_default_currency')->first();
+        $currency = Currency::where('id', $data->value)->first();
+        return $currency->position;
+    }
+
     public static function set_symbol($amount)
     {
-        $position = Helpers::get_business_settings('currency_symbol_position');
+        $data = BusinessSetting::where('type', 'system_default_currency')->first();
+        $currency = Currency::where('id', $data->value)->first();
+        // var_dump(currency_symbol());
+        // return;
+        $position = $currency->position;
+        // $position = Helpers::get_business_settings('currency_symbol_position');
         if (!is_null($position) && $position == 'left') {
-            $string = currency_symbol() . ' ' . number_format($amount, 2, ",", ".");
+            $string = currency_symbol() . '' . number_format($amount, 2, ",", ".");
         } else {
-            $string = number_format($amount, 2, ",", ".") . ' ' . currency_symbol();
+            $string = number_format($amount, 2, ",", ".") . '' . currency_symbol();
         }
         return $string;
     }

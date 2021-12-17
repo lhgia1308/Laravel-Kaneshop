@@ -68,6 +68,19 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>{{trans('messages.position')}} :</label>
+                                        <select name="position" id="position" class="form-control" required="required">
+                                            <option value="left" {{$data->position=="left"?'selected':''}}>Left</option>
+                                            <option value="right" {{$data->position=="right"?'selected':''}}>Right</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                </div>
+                            </div>
+
                             <div class="form-group text-center">
                                 <button type="submit" id="add" class="btn btn-primary"
                                         style="color: white">Update

@@ -316,6 +316,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
                 Route::get('/', 'BusinessSettingsController@companyInfo')->name('index')->middleware('actch');;
                 Route::post('update-colors', 'BusinessSettingsController@update_colors')->name('update-colors');
                 Route::post('update-font', 'BusinessSettingsController@update_font')->name('update-font');
+                Route::post('update_default_statistic_type', 'BusinessSettingsController@update_default_statistic_type')->name('update_default_statistic_type');
                 Route::post('update-language', 'BusinessSettingsController@update_language')->name('update-language');
                 Route::post('update-company', 'BusinessSettingsController@updateCompany')->name('company-update');
                 Route::post('update-company-email', 'BusinessSettingsController@updateCompanyEmail')->name('company-email-update');
@@ -358,6 +359,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::get('generate-invoice/{id}', 'OrderController@generate_invoice')->name('generate-invoice');
             Route::get('view_invoice/{id}', 'OrderController@view_invoice')->name('view_invoice');
             Route::get('inhouse-order-filter', 'OrderController@inhouse_order_filter')->name('inhouse-order-filter');
+            Route::get('order_statistic_list', 'OrderController@order_statistic_list')->name('order_statistic_list');
         });
 
         Route::group(['prefix' => 'helpTopic', 'as' => 'helpTopic.','middleware'=>['module:web_&_app_settings']], function () {

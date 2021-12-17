@@ -677,7 +677,40 @@
                     </div>
                 </div>
             </div>
-
+        </div>
+        <div class="row" style="padding-bottom: 20px">
+            <!-- Config Default Statistic Type -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body" style="padding: 20px">
+                        @php($statistic = \App\Model\BusinessSetting::where(['type'=>'default_statistic_type'])->first())
+                        @php($data = 'current_day')
+                        @if(isset($statistic))
+                            @php($data = $statistic['value'])
+                        @endif
+                        <h4>{{trans('messages.config_default_statistic_type')}}</h4>
+                        <form action="{{route('admin.business-settings.web-config.update_default_statistic_type')}}" method="post"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label>{{trans('messages.statistic_type_list')}}</label>
+                                <select name="sel_statistic_type" id="sel_statistic_type" class="form-control" required="required">
+                                    <option value="all" {{$data=='all'?'selected':''}}>All</option>
+                                    <option value="current_day" {{$data=='current_day'?'selected':''}}>Current day</option>
+                                    <option value="current_month" {{$data=='current_month'?'selected':''}}>Current month</option>
+                                    <option value="current_year" {{$data=='current_year'?'selected':''}}>Current year</option>
+                                </select>
+                            </div>
+                            <button type="submit"
+                                    class="btn btn-primary float-right ml-3">{{trans('messages.Save')}}</button>
+                                    
+                            @php($language=\App\Model\BusinessSetting::where('type','pnc_language')->first())
+                            @php($language = $language->value ?? null)
+                            <input type="hidden" id="txt_languages" value="{{$language}}">
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
@@ -779,9 +812,10 @@
     </script>
 
     <script>
-        @php($language=\App\Model\BusinessSetting::where('type','pnc_language')->first())
-        @php($language = $language->value ?? null)
-        let language = {{$language}};
+        // @php($language=\App\Model\BusinessSetting::where('type','pnc_language')->first())
+        // @php($language = $language->value ?? null)
+        // let language = {{$language}};
+        var language = $('#txt_languages').val();
         $('#language').val(language);
     </script>
 

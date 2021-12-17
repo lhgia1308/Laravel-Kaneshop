@@ -411,6 +411,24 @@ class BusinessSettingsController extends Controller
         return back();
     }
 
+    public function update_default_statistic_type(Request $request) {
+        // var_dump($request['sel_statistic_type']);
+        $statistic = BusinessSetting::where('type', 'default_statistic_type')->first();
+        if(isset($statistic)) {
+            BusinessSetting::where('type', 'default_statistic_type')->update([
+                'value' => $request['sel_statistic_type']
+            ]);
+        }
+        else {
+            DB::table('business_settings')->insert([
+                'type' => 'default_statistic_type'
+                ,'value' => $request['sel_statistic_type']
+            ]);
+        }
+        Toastr::success('Statistic Type Updated!');
+        return back();
+    }
+
     public function fcm_index()
     {
         return view('admin-views.business-settings.fcm-index');

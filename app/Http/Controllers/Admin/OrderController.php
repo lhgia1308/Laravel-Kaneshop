@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\App;
 use App\CPU\WorkerThread;
 use Illuminate\Support\Facades\Response;
 use Spipu\Html2Pdf\Html2Pdf;
+use Carbon\Carbon;
 class OrderController extends Controller
 {
     public function list($status)
@@ -29,19 +30,60 @@ class OrderController extends Controller
             $data = OrderDetail::where(['seller_id' => 0])->pluck('order_id')->toArray();
             $query = Order::with(['customer'])->whereIn('id', array_unique($data));
             if ($status != 'all') {
-                $orders = $query->where(['order_status' => $status])->latest()->paginate(25);
+                $orders = $query->where(['order_status' => $status]);
             } else {
-                $orders = $query->latest()->paginate(15);
+                $orders = $query;
             }
         } else {
-            if ($status != 'all') {
-                $orders = Order::with(['customer'])->where(['order_status' => $status])->latest()->paginate(25);
-            } else {
-                $orders = Order::with(['customer'])->latest()->paginate(25);
+            if ($status != 'all') {//Filter list follow order status
+                $orders = Order::with(['customer'])->where(['order_status' => $status]);
+            } else {//Get all order 
+                $orders = Order::with(['customer']);
+            }
+        }
+
+        $statistic = BusinessSetting::where('type', 'default_statistic_type')->first();
+
+        if(!isset($statistic)) {
+            $orders = $orders->latest()->paginate(25);
+        }
+        else {
+            $type = $statistic['value'];
+            if(session()->has('order_list_statistic')) {
+                $type = session('order_list_statistic');
+            }
+            switch ($type) {
+                case 'current_day':
+                    $orders = $orders->whereDate('created_at', Carbon::today())->latest()->paginate(25);
+                    break;
+                case 'current_month':
+                    $orders = $orders->whereMonth('created_at', Carbon::now())->latest()->paginate(25);
+                    break;
+                case 'current_year':
+                    $orders = $orders->whereYear('created_at', Carbon::now())->latest()->paginate(25);
+                    break;
+                case 'option_day':
+                    $from_day = session('from_day_statistic');
+                    $to_day = session('to_day_statistic');
+                    $today1 = $to_day.' 23:59:59';
+                    $orders = $orders->whereBetween('created_at', [$from_day, $today1])->latest()->paginate(25);
+                    break;
+                default:
+                    $orders = $orders->latest()->paginate(25);
+                    break;
             }
         }
 
         return view('admin-views.order.list', compact('orders'));
+    }
+
+    public function order_statistic_list(Request $request) {
+        // echo "from_day: ".strtotime($request['from_day']) . ", to_day: " .$request["to_day"];
+        // return;
+        session()->put('order_list_statistic', $request['val']);
+        session()->put('from_day_statistic', $request['from_day']);
+        session()->put('to_day_statistic', $request['to_day']);
+        return back();
     }
 
     public function details($id)

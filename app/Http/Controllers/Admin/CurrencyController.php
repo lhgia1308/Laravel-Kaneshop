@@ -66,6 +66,7 @@ class CurrencyController extends Controller
         $currency->symbol = $request->symbol;
         $currency->code = $request->code;
         $currency->exchange_rate = $request->exchange_rate;
+        $currency->position = $request->position;
         $currency->save();
         Toastr::success('Currency updated successfully!');
         return redirect()->back();

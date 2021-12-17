@@ -201,6 +201,7 @@
                                         (1 {{App\Model\Currency::where('id', $default->value)->first()->code}}= ?)
                                     </th>
                                     <th scope="col">{{trans('messages.status')}}</th>
+                                    <th scope="col">{{trans('messages.position')}}</th>
                                     <th scope="col">{{trans('messages.action')}}</th>
                                 </tr>
                                 </thead>
@@ -219,6 +220,7 @@
                                             </span>
                                             </label>
                                         </td>
+                                        <td>{{$data->position}}</td>
                                         <td>
                                             @if($data->code!='USD')
                                                 <a type="button" class="btn btn-primary btn-sm btn-xs edit"

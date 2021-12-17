@@ -7170,9 +7170,9 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
     content: ""
 }
 
-.d-none {
+/* .d-none {
     display: none !important
-}
+} */
 
 .d-inline {
     display: inline !important
@@ -19590,7 +19590,7 @@ label.btn {
 
 .card-header {
     display: -ms-flexbox;
-    display: flex;
+    /* display: flex; */
     -ms-flex-direction: row;
     flex-direction: row;
     -ms-flex-align: center;

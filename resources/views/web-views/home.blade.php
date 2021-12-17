@@ -318,7 +318,7 @@
                                                 <h6 class="flash-product-title">
                                                     {{$deal->product['name']}}
                                                 </h6>
-                                                <div class="flash-product-price">
+                                                <div class="flash-product-price 1111">
                                                     {{\App\CPU\Helpers::currency_converter($deal->product->unit_price-\App\CPU\Helpers::get_product_discount($deal->product,$deal->product->unit_price))}}
                                                     @if($deal->product->discount > 0)
                                                         <strike
