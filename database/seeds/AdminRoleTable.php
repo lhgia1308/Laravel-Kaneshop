@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Console\Helper\Table;
 
 class AdminRoleTable extends Seeder
 {
@@ -12,14 +13,26 @@ class AdminRoleTable extends Seeder
      */
     public function run()
     {
-        DB::table('admin_roles')->insert([
-            'id' => 1,
-            'name' => 'Master Admin',
-        ]);
+        $data = DB::table('admin_roles')->where('name', 'Master Admin')->first();
+        if(!isset($data)) {
+            DB::table('admin_roles')->insert([
+                'name' => 'Master Admin'
+                ,'module_access' => null
+                ,'status' => 1
+                ,'created_at'=>now()
+                ,'updated_at'=>now()
+            ]);
+        }
 
-        DB::table('admin_roles')->insert([
-            'id' => 2,
-            'name' => 'Employee',
-        ]);
+        $data = DB::table('admin_roles')->where('name', 'Seller')->first();
+        if(!isset($data)) {
+            DB::table('admin_roles')->insert([
+                'name' => 'Seller'
+                ,'module_access' => '["order","product"]'
+                ,'status' => 1
+                ,'created_at'=>now()
+                ,'updated_at'=>now()
+            ]);
+        }
     }
 }

@@ -13,15 +13,34 @@ class AdminTable extends Seeder
      */
     public function run()
     {
-        DB::table('admins')->insert([
-            'id' => 1,
-            'name' => 'Master Admin',
-            'phone' => '01759412381',
-            'email' => 'admin@admin.com',
-            'admin_role_id' => 1,
-            'image' => 'def.png',
-            'password' => bcrypt(12345678),
-            'remember_token' =>Str::random(10),
-        ]);
+        $data = DB::table('admins')->where('name', 'Kane Le')->first();
+        if(!isset($data)) {
+            DB::table('admins')->insert([
+                'name' => 'Kane Le'
+                ,'phone' => '0942997754'
+                ,'admin_role_id' => 1
+                ,'image' => 'def.png'
+                ,'email' => 'lhgia1308@gmail.com'
+                ,'password' => bcrypt(12345678)
+                ,'remember_token' =>Str::random(10)
+                ,'created_at'=>now()
+                ,'updated_at'=>now()
+            ]);
+        }
+
+        $data = DB::table('admins')->where('name', 'Phạm Văn Thuyền')->first();
+        if(!isset($data)) {
+            DB::table('admins')->insert([
+                'name' => 'Phạm Văn Thuyền'
+                ,'phone' => '0911465859'
+                ,'admin_role_id' => 7
+                ,'image' => '2021-11-26-61a0624ac8d39.png'
+                ,'email' => 'pvthuyen68@gmail.com'
+                ,'password' => bcrypt(12345678)
+                ,'remember_token' =>Str::random(10)
+                ,'created_at'=>now()
+                ,'updated_at'=>now()
+            ]);
+        }
     }
 }

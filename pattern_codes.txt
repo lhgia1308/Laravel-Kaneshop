@@ -1,12 +1,44 @@
+****Create a migration
+    php artisan make:migration create_admins_tabble --create=admins --path=database/migrations/initialize_database
 
+***Run migrations
+    php artisan migrate --path=database/migrations/initialize_database
 
+***Rollback the migration
+    - To roll back the latest migration operation
+        php artisan migrate:rollback --path=database/migrations/initialize_database
+        or php artisan migrate:rollback --step=5
+    - To roll back all of migrations
+        php artisan migrate:reset
 
+***Create a seeder file
+    php artisan make:seed AdminTable
 
+****Run Seeders are defined in DatabaseSeeder.php
+    - composer dump-autoload
+    - php artisan db:seed
 
+***Run a Seeder
+    php artisan db:seed --class=UserSeeder
+-----------------------------------------------------------
+--------------------------Composer-------------------------
+-----------------------------------------------------------
+****Auto search a suitable version to install
+    composer require yajra/laravel-oci8:*
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
+****To publish configuration settings
+    php artisan vendor:publish --tag=oracle
+-----------------------------------------------------------
+----------------------------Git----------------------------
+-----------------------------------------------------------
 git remote add "Laravel_KaneShop" "https://gitlab.com/lhgia1308/laravel_kaneshop.git"
 and then push using the remote name
 git push "Laravel_KaneShop"
-
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
 //Fix error font dompdf
 php load_font.php "Times New Roman" G:/Sources/Laravel/fonts/times.ttf G:/Sources/Laravel/fonts/timesbd.ttf G:/Sources/Laravel/fonts/timesi.ttf G:/Sources/Laravel/fonts/timesbi.ttf
 // INITIALIZATION OF SELECT2
