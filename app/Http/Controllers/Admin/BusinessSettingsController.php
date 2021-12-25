@@ -647,7 +647,7 @@ class BusinessSettingsController extends Controller
 
                     $val = "'".$value."'";
                     if($type == "integer") {
-                        // var_dump(empty($value));
+                        // var_dump($value);
                         // return;
                         $val = empty($value)?'NULL':$value;
                     }

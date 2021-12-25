@@ -14,7 +14,7 @@
                         {
                             
                     DB::table("translations")->insert([
-                        ['id'=>'0','translationable_type'=>'App\Model\Product','translationable_id'=>'96','locale'=>'af','key'=>'name','value'=>'Home decorators collection boswell quarter 14 in.'],['id'=>'0','translationable_type'=>'App\Model\Product','translationable_id'=>'96','locale'=>'af','key'=>'description','value'=>'<p>A fun and fresh 3-Light pendant inspired by nautical accents. The open frame is popular in a variety of today&#39;s home designs and is finished in Brushed Nickel. Pendants can be used in lieu of chandeliers for creative design schemes, displayed individually or paired in groupings over kitchen islands, dining room tables and in foyers. Brushed nickel finish No shade 14 in. Dia x 20 in. H Uses (3) 100-Watt medium base bulbs (not included) 60 in. of chain included Painted weathered gray wood accents Suitable for dry locations only</p>
+                        ['id'=>'1','translationable_type'=>'App\Model\Product','translationable_id'=>'96','locale'=>'af','key'=>'name','value'=>'Home decorators collection boswell quarter 14 in.'],['id'=>'2','translationable_type'=>'App\Model\Product','translationable_id'=>'96','locale'=>'af','key'=>'description','value'=>'<p>A fun and fresh 3-Light pendant inspired by nautical accents. The open frame is popular in a variety of today&#39;s home designs and is finished in Brushed Nickel. Pendants can be used in lieu of chandeliers for creative design schemes, displayed individually or paired in groupings over kitchen islands, dining room tables and in foyers. Brushed nickel finish No shade 14 in. Dia x 20 in. H Uses (3) 100-Watt medium base bulbs (not included) 60 in. of chain included Painted weathered gray wood accents Suitable for dry locations only</p>
 
 <h1>Technical Details</h1>
 
@@ -77,7 +77,7 @@
 			<td>100 watts</td>
 		</tr>
 	</tbody>
-</table>'],['id'=>'0','translationable_type'=>'App\Model\Product','translationable_id'=>'96','locale'=>'vi','key'=>'name','value'=>'Đèn trần trang trí nhà'],['id'=>'0','translationable_type'=>'App\Model\Product','translationable_id'=>'96','locale'=>'vi','key'=>'description','value'=>'<p>A fun and fresh 3-Light pendant inspired by nautical accents. The open frame is popular in a variety of today&#39;s home designs and is finished in Brushed Nickel. Pendants can be used in lieu of chandeliers for creative design schemes, displayed individually or paired in groupings over kitchen islands, dining room tables and in foyers. Brushed nickel finish No shade 14 in. Dia x 20 in. H Uses (3) 100-Watt medium base bulbs (not included) 60 in. of chain included Painted weathered gray wood accents Suitable for dry locations only</p>
+</table>'],['id'=>'3','translationable_type'=>'App\Model\Product','translationable_id'=>'96','locale'=>'vi','key'=>'name','value'=>'Đèn trần trang trí nhà'],['id'=>'4','translationable_type'=>'App\Model\Product','translationable_id'=>'96','locale'=>'vi','key'=>'description','value'=>'<p>A fun and fresh 3-Light pendant inspired by nautical accents. The open frame is popular in a variety of today&#39;s home designs and is finished in Brushed Nickel. Pendants can be used in lieu of chandeliers for creative design schemes, displayed individually or paired in groupings over kitchen islands, dining room tables and in foyers. Brushed nickel finish No shade 14 in. Dia x 20 in. H Uses (3) 100-Watt medium base bulbs (not included) 60 in. of chain included Painted weathered gray wood accents Suitable for dry locations only</p>
 
 <h1>Technical Details</h1>
 
@@ -140,7 +140,7 @@
 			<td>100 watts</td>
 		</tr>
 	</tbody>
-</table>'],['id'=>'0','translationable_type'=>'App\Model\Category','translationable_id'=>'11','locale'=>'vi','key'=>'name','value'=>'Thời trang nữ'],['id'=>'0','translationable_type'=>'App\Model\Category','translationable_id'=>'10','locale'=>'vi','key'=>'name','value'=>'Thời trang nam'],['id'=>'0','translationable_type'=>'App\Model\Category','translationable_id'=>'9','locale'=>'vi','key'=>'name','value'=>'Điện thoại'],['id'=>'0','translationable_type'=>'App\Model\Category','translationable_id'=>'8','locale'=>'vi','key'=>'name','value'=>'Máy tính'],['id'=>'0','translationable_type'=>'App\Model\Product','translationable_id'=>'83','locale'=>'vn','key'=>'name','value'=>'Áo dài tay dài nhẹ bằng lông cừu Pháp có khóa kéo'],['id'=>'0','translationable_type'=>'App\Model\Product','translationable_id'=>'83','locale'=>'vn','key'=>'description','value'=>'<p>60% cotton, 40% polyester</p>
+</table>'],['id'=>'5','translationable_type'=>'App\Model\Category','translationable_id'=>'11','locale'=>'vi','key'=>'name','value'=>'Thời trang nữ'],['id'=>'6','translationable_type'=>'App\Model\Category','translationable_id'=>'10','locale'=>'vi','key'=>'name','value'=>'Thời trang nam'],['id'=>'7','translationable_type'=>'App\Model\Category','translationable_id'=>'9','locale'=>'vi','key'=>'name','value'=>'Điện thoại'],['id'=>'8','translationable_type'=>'App\Model\Category','translationable_id'=>'8','locale'=>'vi','key'=>'name','value'=>'Máy tính'],['id'=>'9','translationable_type'=>'App\Model\Product','translationable_id'=>'83','locale'=>'vn','key'=>'name','value'=>'Áo dài tay dài nhẹ bằng lông cừu Pháp có khóa kéo'],['id'=>'10','translationable_type'=>'App\Model\Product','translationable_id'=>'83','locale'=>'vn','key'=>'description','value'=>'<p>60% cotton, 40% polyester</p>
 
 <ul>
 	<li>Đ&atilde; nhập</li>
@@ -160,7 +160,7 @@
 	<li>Ng&agrave;y c&oacute; sẵn lần đầu ti&ecirc;n: &amp; nbsp; ng&agrave;y 6 th&aacute;ng 2 năm 2020</li>
 	<li>Nh&agrave; sản xuất: &amp; nbsp; Amazon Essentials</li>
 	<li>ASIN: &amp; nbsp; B07W6NPBVV</li>
-</ul>'],['id'=>'0','translationable_type'=>'App\Model\Product','translationable_id'=>'83','locale'=>'zh','key'=>'name','value'=>'Women\'s long-sleeve lightweight french terry fleece quarter-zip top'],['id'=>'0','translationable_type'=>'App\Model\Product','translationable_id'=>'83','locale'=>'zh','key'=>'description','value'=>'<p>60% Cotton, 40% Polyester</p>
+</ul>'],['id'=>'11','translationable_type'=>'App\Model\Product','translationable_id'=>'83','locale'=>'zh','key'=>'name','value'=>'Women\'s long-sleeve lightweight french terry fleece quarter-zip top'],['id'=>'12','translationable_type'=>'App\Model\Product','translationable_id'=>'83','locale'=>'zh','key'=>'description','value'=>'<p>60% Cotton, 40% Polyester</p>
 
 <ul>
 	<li>Imported</li>
@@ -180,7 +180,7 @@
 	<li>Date First Available :&nbsp;February 6, 2020</li>
 	<li>Manufacturer :&nbsp;Amazon Essentials</li>
 	<li>ASIN :&nbsp;B07W6NPBVV</li>
-</ul>'],['id'=>'0','translationable_type'=>'App\Model\Product','translationable_id'=>'83','locale'=>'af','key'=>'name','value'=>'Women\'s long-sleeve lightweight french terry fleece quarter-zip top'],['id'=>'0','translationable_type'=>'App\Model\Product','translationable_id'=>'83','locale'=>'af','key'=>'description','value'=>'<p>60% Cotton, 40% Polyester</p>
+</ul>'],['id'=>'13','translationable_type'=>'App\Model\Product','translationable_id'=>'83','locale'=>'af','key'=>'name','value'=>'Women\'s long-sleeve lightweight french terry fleece quarter-zip top'],['id'=>'14','translationable_type'=>'App\Model\Product','translationable_id'=>'83','locale'=>'af','key'=>'description','value'=>'<p>60% Cotton, 40% Polyester</p>
 
 <ul>
 	<li>Imported</li>
@@ -200,7 +200,7 @@
 	<li>Date First Available :&nbsp;February 6, 2020</li>
 	<li>Manufacturer :&nbsp;Amazon Essentials</li>
 	<li>ASIN :&nbsp;B07W6NPBVV</li>
-</ul>'],['id'=>'0','translationable_type'=>'App\Model\Category','translationable_id'=>'1','locale'=>'vn','key'=>'name','value'=>'Làm đẹp, sức khỏe'],['id'=>'0','translationable_type'=>'App\Model\Category','translationable_id'=>'1','locale'=>'zh','key'=>'name','value'=>'美容、健康与头发']
+</ul>'],['id'=>'15','translationable_type'=>'App\Model\Category','translationable_id'=>'1','locale'=>'vn','key'=>'name','value'=>'Làm đẹp, sức khỏe'],['id'=>'16','translationable_type'=>'App\Model\Category','translationable_id'=>'1','locale'=>'zh','key'=>'name','value'=>'美容、健康与头发']
                     ]);
                 
                         }
