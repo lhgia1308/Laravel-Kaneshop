@@ -243,8 +243,10 @@ class WebController extends Controller
 
             foreach (session('cart') as $c) {
                 $product = Product::where(['id' => $c['id']])->first();
+                $obj = OrderDetail::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 $or_d = [
-                    'order_id' => $order_id,
+                    'id' => $new_id,
                     'product_id' => $c['id'],
                     'seller_id' => $product->added_by == 'seller' ? $product->user_id : '0',
                     'product_details' => $product,

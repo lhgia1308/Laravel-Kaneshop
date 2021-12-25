@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class AdminWalletTable extends Seeder
+class Attributes extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,12 +12,11 @@ class AdminWalletTable extends Seeder
      */
     public function run()
     {
-        $data = DB::table('admin_wallets')->where(['admin_id' => 1, 'balance' => 401.36])->first();
+        $data = DB::table('attributes')->where(['id' => 1])->first();
         if(!isset($data)) {
-            DB::table('admin_wallets')->insert([
-                'admin_id' => 1
-                ,'balance' => 401.36
-                ,'withdrawn' => 0
+            DB::table('attributes')->insert([
+                'id' => 1
+                ,'name' => 'Size'
                 ,'created_at' => now()
                 ,'updated_at' => now()
             ]);

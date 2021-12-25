@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use App\Model\SupportTicketConv;
 
 class UserProfileController extends Controller
 {
@@ -83,7 +84,10 @@ class UserProfileController extends Controller
 
     public function address_store(Request $request)
     {
+        $obj = ShippingAddress::orderBy('id', 'desc')->first();
+        $new_id = isset($obj) ? $obj->id + 1 : 1;
         $address = [
+            'id' => $new_id,
             'customer_id' => auth('customer')->check() ? auth('customer')->id() : null,
             'contact_person_name' => $request->name,
             'address_type' => $request->addressAs,
@@ -186,7 +190,10 @@ class UserProfileController extends Controller
 
     public function ticket_submit(Request $request)
     {
+        $obj = SupportTicket::orderBy('id', 'desc')->first();
+        $new_id = isset($obj) ? $obj->id + 1 : 1;
         $ticket = [
+            'id' => $new_id,
             'subject' => $request['ticket_subject'],
             'type' => $request['ticket_type'],
             'customer_id' => auth('customer')->check() ? auth('customer')->id() : null,
@@ -212,7 +219,10 @@ class UserProfileController extends Controller
             'updated_at' => now(),
         ]);
 
+        $obj = SupportTicketConv::orderBy('id', 'desc')->first();
+        $new_id = isset($obj) ? $obj->id + 1 : 1;
         DB::table('support_ticket_convs')->insert([
+            'id' => $new_id,
             'customer_message' => $request->comment,
             'support_ticket_id' => $id,
             'position' => 0,

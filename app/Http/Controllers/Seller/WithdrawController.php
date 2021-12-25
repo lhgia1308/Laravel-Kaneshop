@@ -17,7 +17,10 @@ class WithdrawController extends Controller
     {
         $w = SellerWallet::where('seller_id', auth()->guard('seller')->id())->first();
         if ($w->balance >= Convert::usd($request['amount']) && $request['amount'] > 1) {
+            $obj = WithdrawRequest::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             $data = [
+                'id' => $new_id,
                 'seller_id' => auth()->guard('seller')->user()->id,
                 'amount' => Convert::usd($request['amount']),
                 'transaction_note' => null,

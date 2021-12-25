@@ -51,7 +51,10 @@ class ChatController extends Controller
             $message = $request->message;
             $time = now();
 
+            $obj = Chatting::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             DB::table('chattings')->insert([
+                'id' => $new_id,
                 'user_id' => $request->user_id, //user_id == seller_id
                 'shop_id' => $shop_id,
                 'seller_id' => $seller['id'],

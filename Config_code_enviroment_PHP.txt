@@ -1,0 +1,20 @@
+Config enviroment code PHP
+- Xampp with PHP 7.4.25
+- To connect to oracle: 
++ add lib: php_oci8_11g.dll with Oracle 11g or php_oci8_12c.dll with Oracle 12c to folder xampp/php/ext
++ Add 2 lines into php.ini file on folder xampp/php
+extension=php_oci8_11g.dll
+extension=php_oci8_12c.dll
++ Add folder contain instantclient to Path of enviroment variable
++ Restart XAMPP
+- To connect to SQL Server (recommend version 2019)
++ Add 2 libs: php_pdo_sqlsrv_74_ts_x64.dll & php_sqlsrv_74_ts_x64.dll into folder xampp/php/ext
++ Add 2 lines into php.ini file on folder xampp/php
+extension=php_pdo_sqlsrv_74_ts_x64.dll
+extension=php_sqlsrv_74_ts_x64.dll
++ Restart XAMPP
+- Redirecting to web source
++ Open file httpd.conf on folder Xampp/apache/conf, search key word: htdocs replace line at: DocumentRoot "C:/xampp/htdocs" & <Directory "C:/xampp/htdocs"> to path contain web source
+Eg: 
+DocumentRoot "G:/Sources/Laravel/laravel_kaneshop"
+<Directory "G:/Sources/Laravel/laravel_kaneshop">

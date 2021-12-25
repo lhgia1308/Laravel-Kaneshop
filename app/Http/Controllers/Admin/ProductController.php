@@ -569,7 +569,10 @@ class ProductController extends BaseController
                 }
             }
 
+            $obj = Product::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             array_push($data, [
+                'id' => $new_id,
                 'name' => $collection['name'],
                 'slug' => Str::slug($collection['name'], '-') . '-' . Str::random(6),
                 'category_ids' => json_encode([['id' => $collection['category_id'], 'position' => 0], ['id' => $collection['sub_category_id'], 'position' => 1]]),

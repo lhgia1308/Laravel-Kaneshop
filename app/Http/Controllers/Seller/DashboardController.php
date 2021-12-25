@@ -41,9 +41,10 @@ class DashboardController extends Controller
 
         $seller_data = [];
         $seller_earnings = SellerWalletHistory::select(
-            DB::raw('IFNULL(sum(amount),0) as sums'),
+            DB::raw('ISNULL(sum(amount),0) as sums'),
+            // DB::raw('IFNULL(sum(amount),0) as sums'),
             DB::raw('YEAR(created_at) year, MONTH(created_at) month')
-        )->whereBetween('created_at', [$from, $to])->groupby('year', 'month')->get()->toArray();
+        )->whereBetween('created_at', [$from, $to])->groupby(['YEAR(created_at)', 'MONTH(created_at)'])->get()->toArray();
         for ($inc = 1; $inc <= 12; $inc++) {
             $seller_data[$inc] = 0;
             foreach ($seller_earnings as $match) {
@@ -56,9 +57,10 @@ class DashboardController extends Controller
         $commission_data = [];
         $seller_products = Product::where(['added_by' => 'seller'])->pluck('id')->toArray();
         $commission_earnings = AdminWalletHistory::whereIn('product_id', $seller_products)->select(
-            DB::raw('IFNULL(sum(amount),0) as sums'),
+            DB::raw('ISNULL(sum(amount),0) as sums'),
+            // DB::raw('IFNULL(sum(amount),0) as sums'),
             DB::raw('YEAR(created_at) year, MONTH(created_at) month')
-        )->whereBetween('created_at', [$from, $to])->groupby('year', 'month')->get()->toArray();
+        )->whereBetween('created_at', [$from, $to])->groupby(['YEAR(created_at)', 'MONTH(created_at)'])->get()->toArray();
         for ($inc = 1; $inc <= 12; $inc++) {
             $commission_data[$inc] = 0;
             foreach ($commission_earnings as $match) {

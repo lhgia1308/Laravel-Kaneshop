@@ -12,6 +12,9 @@ use App\Model\ShippingMethod;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Model\SellerWalletHistory;
+use AdminWalletHistories;
+use App\Model\AdminWalletHistory;
 
 class OrderManager
 {
@@ -23,8 +26,10 @@ class OrderManager
     public static function place_order($customer_id, $email, $customer_info, $cart, $payment_method, $discount)
     {
         try {
+            $obj = Order::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             $or = [
-                'id' => 100000 + Order::all()->count() + 1,
+                'id' => $new_id,
                 'customer_id' => $customer_id,
                 'customer_type' => 'customer',
                 'payment_status' => 'unpaid',
@@ -43,7 +48,10 @@ class OrderManager
 
             foreach ($cart as $c) {
                 $product = Product::where('id', $c['id'])->first();
+                $obj = OrderDetail::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 $or_d = [
+                    'id' => $new_id,
                     'order_id' => $o_id,
                     'product_id' => $c['id'],
                     'seller_id' => $product->added_by == 'seller' ? $product->user_id : '0',
@@ -230,7 +238,10 @@ class OrderManager
             $discount = $order->discount;
             $total = ($order->price * $order->qty) + $tax - $discount + ($shipping->creator_type == 'seller' ? $shipping->cost : 0);
 
+            $obj = SellerWalletHistory::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             DB::table('seller_wallet_histories')->insert([
+                'id' => $new_id,
                 'seller_id' => $order->seller_id,
                 'amount' => $total - $commission_amount,
                 'order_id' => $order->order_id,
@@ -239,7 +250,10 @@ class OrderManager
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+            $obj = AdminWalletHistory::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             DB::table('admin_wallet_histories')->insert([
+                'id' => $new_id,
                 'admin_id' => Admin::where('admin_role_id', 1)->first()->id,
                 'amount' => $commission_amount + ($shipping->creator_type == 'admin' ? $shipping->cost : 0),
                 'order_id' => $order->order_id,
@@ -250,7 +264,10 @@ class OrderManager
             ]);
 
             if (SellerWallet::where('seller_id', $order->seller_id)->first() == false) {
+                $obj = SellerWallet::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 DB::table('seller_wallets')->insert([
+                    'id' => $new_id,
                     'seller_id' => $order->seller_id,
                     'balance' => 0,
                     'withdrawn' => 0,
@@ -259,7 +276,10 @@ class OrderManager
                 ]);
             }
             if (AdminWallet::where('admin_id', Admin::where('admin_role_id', 1)->first()->id)->first() == false) {
+                $obj = AdminWallet::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 DB::table('admin_wallets')->insert([
+                    'id' => $new_id,
                     'admin_id' => Admin::where('admin_role_id', 1)->first()->id,
                     'balance' => 0,
                     'withdrawn' => 0,
@@ -277,7 +297,10 @@ class OrderManager
             $discount = $order->discount;
             $total = ($order->price * $order->qty) + $tax - $discount + $shipping->cost;
 
+            $obj = AdminWalletHistory::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             DB::table('admin_wallet_histories')->insert([
+                'id' => $new_id,
                 'admin_id' => Admin::where('admin_role_id', 1)->first()->id,
                 'amount' => $total,
                 'order_id' => $order->order_id,
@@ -287,7 +310,10 @@ class OrderManager
                 'updated_at' => now(),
             ]);
             if (AdminWallet::where('admin_id', Admin::where('admin_role_id', 1)->first()->id)->first() == false) {
+                $obj = AdminWallet::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 DB::table('admin_wallets')->insert([
+                    'id' => $new_id,
                     'admin_id' => Admin::where('admin_role_id', 1)->first()->id,
                     'balance' => 0,
                     'withdrawn' => 0,

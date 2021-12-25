@@ -25,8 +25,10 @@ class BrandController extends Controller
         ], [
             'name.required' => 'Brand name is required!',
         ]);
-
+        $obj = Brand::orderBy('id', 'desc')->first();
+        $new_id = isset($obj) ? $obj->id + 1 : 1;
         DB::table('brands')->insert([
+            'id' => $new_id,
             'name' => $request->name,
             'image' => ImageManager::upload('brand/', 'png', $request->file('image')),
             'status' => 1,

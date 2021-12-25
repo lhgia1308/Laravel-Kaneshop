@@ -40,7 +40,10 @@ class EmployeeController extends Controller
             return back();
         }
 
+        $obj = Admin::orderBy('id', 'desc')->first();
+        $new_id = isset($obj) ? $obj->id + 1 : 1;
         DB::table('admins')->insert([
+            'id' => $new_id,
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email,

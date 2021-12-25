@@ -37,7 +37,10 @@ class SystemController extends Controller
     {
         $maintenance_mode = BusinessSetting::where('type', 'maintenance_mode')->first();
         if (isset($maintenance_mode) == false) {
+            $obj = BusinessSetting::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             DB::table('business_settings')->insert([
+                'id' => $new_id,
                 'type' => 'maintenance_mode',
                 'value' => 1,
                 'created_at' => now(),

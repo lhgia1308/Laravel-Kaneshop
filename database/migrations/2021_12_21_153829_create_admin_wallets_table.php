@@ -14,7 +14,7 @@ class CreateAdminWalletsTable extends Migration
     public function up()
     {
         Schema::create('admin_wallets', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->integer('id')->primary();;
             $table->tinyInteger('admin_id')->nullable();
             $table->float('balance', 15, 8)->nullable();
             $table->float('withdrawn', 15, 8)->nullable();

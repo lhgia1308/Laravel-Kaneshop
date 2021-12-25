@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Nexmo\User\User;
 
 class RegisterController extends Controller
 {
@@ -41,7 +42,10 @@ class RegisterController extends Controller
             session()->put('keep_return_url', url()->previous());
         }
 
+        $obj = \Illuminate\Foundation\Auth\User::orderBy('id', 'desc')->first();
+        $new_id = isset($obj) ? $obj->id + 1 : 1;
         DB::table('users')->insert([
+            'id' => $new_id,
             'f_name' => $request['f_name'],
             'l_name' => $request['l_name'],
             'email' => $request['email'],

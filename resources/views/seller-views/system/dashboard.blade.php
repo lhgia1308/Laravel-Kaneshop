@@ -94,7 +94,10 @@
                                 @php
                                     $wallet = \App\Model\SellerWallet::where('seller_id',auth('seller')->id())->first();
                                     if(isset($wallet)==false){
+                                        $obj = \App\Model\SellerWallet::orderBy('id', 'desc')->first();
+                                        $new_id = isset($obj) ? $obj->id + 1 : 1;
                                         \Illuminate\Support\Facades\DB::table('seller_wallets')->insert([
+                                            'id' => $new_id,
                                             'seller_id'=>auth('seller')->id(),
                                             'balance'=>0,
                                             'withdrawn'=>0,

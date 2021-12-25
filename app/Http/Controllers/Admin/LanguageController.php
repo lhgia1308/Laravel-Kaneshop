@@ -58,7 +58,10 @@ class LanguageController extends Controller
             Language::where('code',$request['code'])->update($data);
         }
         else {
+            $obj = Language::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             DB::table('languages')->insert([
+                'id' => $new_id,
                 'code' => $code,
                 'name' => $request['name'],
                 'image' => $img
@@ -242,7 +245,10 @@ class LanguageController extends Controller
                 ]),
             ]);
         } else {
+            $obj = BusinessSetting::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             DB::table('business_settings')->insert([
+                'id' => $new_id,
                 'type' => 'default_language',
                 'value' => json_encode([
                     'default_language' => $lang

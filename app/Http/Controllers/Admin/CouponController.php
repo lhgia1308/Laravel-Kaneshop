@@ -29,7 +29,10 @@ class CouponController extends Controller
             'min_purchase' => 'required',
         ]);
 
+        $obj = Coupon::orderBy('id', 'desc')->first();
+        $new_id = isset($obj) ? $obj->id + 1 : 1;
         DB::table('coupons')->insert([
+            'id' => $new_id,
             'coupon_type' => $request->coupon_type,
             'title' => $request->title,
             'code' => $request->code,

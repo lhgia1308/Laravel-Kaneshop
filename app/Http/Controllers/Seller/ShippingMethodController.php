@@ -25,7 +25,10 @@ class ShippingMethodController extends Controller
             'cost' => 'numeric'
         ]);
 
+        $obj = ShippingMethod::orderBy('id', 'desc')->first();
+        $new_id = isset($obj) ? $obj->id + 1 : 1;
         DB::table('shipping_methods')->insert([
+            'id' => $new_id,
             'creator_id' => auth('seller')->id(),
             'creator_type' => 'seller',
             'title' => $request['title'],

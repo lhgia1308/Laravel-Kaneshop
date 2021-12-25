@@ -1,9 +1,14 @@
+***Noting use generate auto seed files
+    value of data of columns have contain ' char => remove ' char
+
+
 ****Create a migration
-    php artisan make:migration create_admins_tabble --create=admins --path=database/migrations/initialize_database
+    php artisan make:migration create_admins_tabble --create=admins --path=database/migrations/set_increment_id
 
 ***Run migrations
     php artisan migrate --path=database/migrations/initialize_database
-
+***Run a migration
+    php artisan migrate --path=2021_12_22_140203_create_wishlists_table.php
 ***Rollback the migration
     - To roll back the latest migration operation
         php artisan migrate:rollback --path=database/migrations/initialize_database
@@ -15,7 +20,7 @@
     php artisan make:seed AdminTable
 
 ****Run Seeders are defined in DatabaseSeeder.php
-    - composer dump-autoload
+    - composer dumpautoload
     - php artisan db:seed
 
 ***Run a Seeder

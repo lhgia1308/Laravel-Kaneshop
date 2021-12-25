@@ -144,7 +144,10 @@ class CustomerController extends Controller
             return response()->json(['errors' => Helpers::error_processor($validator)], 403);
         }
 
+        $obj = ShippingAddress::orderBy('id', 'desc')->first();
+        $new_id = isset($obj) ? $obj->id + 1 : 1;
         $address = [
+            'id' => $new_id,
             'customer_id' => $request->user()->id,
             'contact_person_name' => $request->name,
             'address_type' => $request->address_type,

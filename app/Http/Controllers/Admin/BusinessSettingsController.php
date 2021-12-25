@@ -40,7 +40,10 @@ class BusinessSettingsController extends Controller
     {
         $currency_symbol_position = BusinessSetting::where('type', 'currency_symbol_position')->first();
         if (isset($currency_symbol_position) == false) {
+            $obj = BusinessSetting::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             DB::table('business_settings')->insert([
+                'id' => $new_id,
                 'type' => 'currency_symbol_position',
                 'value' => $side,
                 'created_at' => now(),
@@ -231,7 +234,10 @@ class BusinessSettingsController extends Controller
             ]);
         } else {
             $img = ImageManager::upload('shop/', 'png', $request->file('image'));
+            $obj = BusinessSetting::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             DB::table('business_settings')->insert([
+                'id' => $new_id,
                 'type' => 'shop_banner',
                 'value' => $img,
             ]);
@@ -245,7 +251,10 @@ class BusinessSettingsController extends Controller
         if ($name == 'download_app_apple_stroe') {
             $download_app_store = BusinessSetting::where('type', 'download_app_apple_stroe')->first();
             if (isset($download_app_store) == false) {
+                $obj = BusinessSetting::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 DB::table('business_settings')->insert([
+                    'id' => $new_id,
                     'type' => 'download_app_apple_stroe',
                     'value' => json_encode([
                         'status' => 1,
@@ -269,7 +278,10 @@ class BusinessSettingsController extends Controller
         } elseif ($name == 'download_app_google_stroe') {
             $download_app_store = BusinessSetting::where('type', 'download_app_google_stroe')->first();
             if (isset($download_app_store) == false) {
+                $obj = BusinessSetting::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 DB::table('business_settings')->insert([
+                    'id' => $new_id,
                     'type' => 'download_app_google_stroe',
                     'value' => json_encode([
                         'status' => 1,
@@ -374,7 +386,10 @@ class BusinessSettingsController extends Controller
                     ]),
             ]);
         } else {
+            $obj = BusinessSetting::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             DB::table('business_settings')->insert([
+                'id' => $new_id,
                 'type' => 'colors',
                 'value' => json_encode(
                     [
@@ -398,7 +413,10 @@ class BusinessSettingsController extends Controller
                     ]),
             ]);
         } else {
+            $obj = BusinessSetting::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             DB::table('business_settings')->insert([
+                'id' => $new_id,
                 'type' => 'font',
                 'value' => json_encode(
                     [
@@ -420,7 +438,10 @@ class BusinessSettingsController extends Controller
             ]);
         }
         else {
+            $obj = BusinessSetting::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             DB::table('business_settings')->insert([
+                'id' => $new_id,
                 'type' => 'default_statistic_type'
                 ,'value' => $request['sel_statistic_type']
             ]);
@@ -508,12 +529,24 @@ class BusinessSettingsController extends Controller
     {
         $sales_commission = BusinessSetting::where('type', 'sales_commission')->first();
         if (!isset($sales_commission)) {
-            DB::table('business_settings')->insert(['type' => 'sales_commission', 'value' => 0]);
+            $obj = BusinessSetting::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
+            DB::table('business_settings')->insert([
+                'id' => $new_id,
+                'type' => 'sales_commission',
+                'value' => 0
+            ]);
         }
 
         $seller_registration = BusinessSetting::where('type', 'seller_registration')->first();
         if (!isset($seller_registration)) {
-            DB::table('business_settings')->insert(['type' => 'seller_registration', 'value' => 1]);
+            $obj = BusinessSetting::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
+            DB::table('business_settings')->insert([
+                'id' => $new_id,
+                'type' => 'seller_registration', 
+                'value' => 1
+            ]);
         }
 
         return view('admin-views.business-settings.seller-settings');
@@ -529,7 +562,13 @@ class BusinessSettingsController extends Controller
         if (isset($sales_commission)) {
             BusinessSetting::where('type', 'sales_commission')->update(['value' => $data->commission]);
         } else {
-            DB::table('business_settings')->insert(['type' => 'sales_commission', 'value' => $data->commission]);
+            $obj = BusinessSetting::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
+            DB::table('business_settings')->insert([
+                'id' => $new_id,
+                'type' => 'sales_commission', 
+                'value' => $data->commission
+            ]);
         }
 
         Toastr::success('Sales commission Updated successfully!');
@@ -542,7 +581,10 @@ class BusinessSettingsController extends Controller
         if (isset($seller_registration)) {
             BusinessSetting::where(['type' => 'seller_registration'])->update(['value' => $data->seller_registration]);
         } else {
+            $obj = BusinessSetting::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             DB::table('business_settings')->insert([
+                'id' => $new_id,
                 'type' => 'seller_registration',
                 'value' => $data->seller_registration,
                 'updated_at' => now()
@@ -567,4 +609,136 @@ class BusinessSettingsController extends Controller
         Toastr::success('Language  updated!');
         return back();
     }
+
+    public function generate_seed_files(Request $request) {
+        // $tables = DB::connection()->getDoctrineSchemaManager()->listTableNames();
+        $names = $request['table_names'];
+        // var_dump($request['chk_create_files']);
+        // return;
+        // $ori = include(base_path('resources/views/admin-views/business-settings/seed.blade.php'));
+        // var_dump($ori);
+        //Create only a new file
+        if(!isset($request['chk_create_files']))
+            file_put_contents(base_path('database/seeds/AllSeed.php'), '');
+
+        //Define a global variable: $results to join data of all the tables to a string
+        $results = "";
+        foreach($names as $name) {
+
+            if(isset($request['chk_create_files']))
+                file_put_contents(base_path('database/seeds/'.$name.'.php'), '');
+
+            $class = DB::table($name)->get();
+            //Define a array: $str_atr to convert to a string
+            $str_atr = [];
+            foreach($class as $obj) {
+                // var_dump($obj);
+                $obj_arr = [];
+                
+                foreach($obj as $key=>$value) {
+
+                    $type = DB::getSchemaBuilder()->getColumnType($name, $key);
+                    // var_dump($type);
+                    
+                    //Handle special chars
+                    $value = addcslashes($value, "'");
+                    $value = str_replace('\"', '', $value);
+                    //End handle
+
+                    $val = "'".$value."'";
+                    if($type == "integer") {
+                        // var_dump(empty($value));
+                        // return;
+                        $val = empty($value)?'NULL':$value;
+                    }
+                    if($type == "datetime") {
+                        // var_dump(date('Y-m-d H:i:s', strtotime('2021-11-26 03:08:48.000')));
+                        $val = "date('Y-m-d H:i:s', strtotime('".$value."'))";
+                    }
+                    
+                    array_push($obj_arr, implode('=>', array("'".$key."'", $val)));
+                    $data_str = implode(",", $obj_arr);
+
+                }
+                $data_str = "[" . $data_str . "]";
+                //Push a string to a array
+                array_push($str_atr, $data_str);
+            }
+            
+            //Join datas of a array to a string
+            $temp_str = implode(',', $str_atr);
+            //End Get data of a table
+
+            //Write data to per file
+            if(isset($request['chk_create_files'])) {
+                $results = '
+                    DB::table("'.$name.'")->insert([
+                        '.$temp_str.'
+                    ]);
+                ';
+                $template_str = '
+                <?php
+                    use Illuminate\Database\Seeder;
+                    use Illuminate\Support\Facades\DB;
+                    
+                    class '.$name.' extends Seeder
+                    {
+                        /**
+                         * Run the database seeds.
+                         *
+                         * @return void
+                         */
+                        public function run()
+                        {
+                            '.$results.'
+                        }
+                    }
+                ';
+                //Write data to a PHP file
+                $file = fopen('database/seeds/'.$name.'.php', "w") or die("Unable to open file!");
+                fwrite($file, $template_str);
+                fclose($file);
+            }
+            //Join data of a table to a global variable
+            else {
+                $results = $results .'
+                    DB::table("'.$name.'")->insert([
+                        '.$temp_str.'
+                    ]);
+                ';
+                // var_dump($results);
+            }
+        }
+        
+        //Case not create multi files, write all of datas of many tables into a file
+        if(!isset($request['chk_create_files'])) {
+            $template_str = '
+            <?php
+                use Illuminate\Database\Seeder;
+                use Illuminate\Support\Facades\DB;
+                
+                class AllSeed extends Seeder
+                {
+                    /**
+                     * Run the database seeds.
+                     *
+                     * @return void
+                     */
+                    public function run()
+                    {
+                        '.$results.'
+                    }
+                }
+            ';
+            //Write result to a PHP file
+            $file = fopen('database/seeds/AllSeed.php', "w") or die("Unable to open file!");
+            fwrite($file, $template_str);
+            fclose($file);
+        }
+        
+        return response()->json(['success'=>1, 'statusCode'=> 200, 'message' => 'Generated the seed file at folder database/seeds!'], 200);
+        // Toastr::success('Generated the seed file at folder database/seeds!');
+        // return back();
+    }
+
 }

@@ -22,7 +22,10 @@ class PaymentMethodController extends Controller
         if ($name == 'cash_on_delivery') {
             $payment = BusinessSetting::where('type', 'cash_on_delivery')->first();
             if (isset($payment) == false) {
+                $obj = BusinessSetting::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 DB::table('business_settings')->insert([
+                    'id' => $new_id,
                     'type' => 'cash_on_delivery',
                     'value' => json_encode([
                         'status' => $request['status']
@@ -51,7 +54,10 @@ class PaymentMethodController extends Controller
         } elseif ($name == 'ssl_commerz_payment') {
             $payment = BusinessSetting::where('type', 'ssl_commerz_payment')->first();
             if (isset($payment) == false) {
+                $obj = BusinessSetting::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 DB::table('business_settings')->insert([
+                    'id' => $new_id,
                     'type' => 'ssl_commerz_payment',
                     'value' => json_encode([
                         'status' => 1,
@@ -85,7 +91,10 @@ class PaymentMethodController extends Controller
         } elseif ($name == 'paypal') {
             $payment = BusinessSetting::where('type', 'paypal')->first();
             if (isset($payment) == false) {
+                $obj = BusinessSetting::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 DB::table('business_settings')->insert([
+                    'id' => $new_id,
                     'type' => 'paypal',
                     'value' => json_encode([
                         'status' => 1,
@@ -115,7 +124,10 @@ class PaymentMethodController extends Controller
         } elseif ($name == 'stripe') {
             $payment = BusinessSetting::where('type', 'stripe')->first();
             if (isset($payment) == false) {
+                $obj = BusinessSetting::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 DB::table('business_settings')->insert([
+                    'id' => $new_id,
                     'type' => 'stripe',
                     'value' => json_encode([
                         'status' => 1,
@@ -145,7 +157,10 @@ class PaymentMethodController extends Controller
         } elseif ($name == 'razor_pay') {
             $payment = BusinessSetting::where('type', 'razor_pay')->first();
             if (isset($payment) == false) {
+                $obj = BusinessSetting::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 DB::table('business_settings')->insert([
+                    'id' => $new_id,
                     'type' => 'razor_pay',
                     'value' => json_encode([
                         'status' => 1,
@@ -179,7 +194,10 @@ class PaymentMethodController extends Controller
         } elseif ($name == 'senang_pay') {
             $payment = BusinessSetting::where('type', 'senang_pay')->first();
             if (isset($payment) == false) {
+                $obj = BusinessSetting::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 DB::table('business_settings')->insert([
+                    'id' => $new_id,
                     'type' => 'senang_pay',
                     'value' => json_encode([
                         'status' => 1,
@@ -215,7 +233,10 @@ class PaymentMethodController extends Controller
         } elseif ($name == 'paystack') {
             $payment = BusinessSetting::where('type', 'paystack')->first();
             if (isset($payment) == false) {
+                $obj = BusinessSetting::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 DB::table('business_settings')->insert([
+                    'id' => $new_id,
                     'type' => 'paystack',
                     'value' => json_encode([
                         'status' => 1,

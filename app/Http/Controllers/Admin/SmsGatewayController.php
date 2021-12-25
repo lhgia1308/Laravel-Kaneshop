@@ -19,7 +19,10 @@ class SmsGatewayController extends Controller
         if ($name == 'sms_nexmo') {
             $sms = BusinessSetting::where('type', 'sms_nexmo')->first();
             if (isset($sms) == false) {
+                $obj = BusinessSetting::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 DB::table('business_settings')->insert([
+                    'id' => $new_id,
                     'type' => 'sms_nexmo',
                     'value' => json_encode([
                         'status' => 1,

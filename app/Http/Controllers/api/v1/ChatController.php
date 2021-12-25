@@ -70,7 +70,10 @@ class ChatController extends Controller
             if ($request->message == '') {
                 return response()->json('type something!');
             } else {
+                $obj = Chatting::orderBy('id', 'desc')->first();
+                $new_id = isset($obj) ? $obj->id + 1 : 1;
                 DB::table('chattings')->insert([
+                    'id' => $new_id,
                     'user_id' => $request->user()->id,
                     'shop_id' => $request->shop_id,
                     'seller_id' => $request->seller_id,

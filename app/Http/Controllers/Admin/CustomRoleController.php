@@ -24,7 +24,10 @@ class CustomRoleController extends Controller
             'name.required'=>'Role name is required!'
         ]);
 
+        $obj = AdminRole::orderBy('id', 'desc')->first();
+        $new_id = isset($obj) ? $obj->id + 1 : 1;
         DB::table('admin_roles')->insert([
+            'id' => $new_id,
             'name'=>$request->name,
             'module_access'=>json_encode($request['modules']),
             'status'=>1,

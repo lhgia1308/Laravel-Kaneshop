@@ -16,7 +16,10 @@ class ShopController extends Controller
     {
         $shop = Shop::where(['seller_id' => auth('seller')->id()])->first();
         if (isset($shop) == false) {
+            $obj = Shop::orderBy('id', 'desc')->first();
+            $new_id = isset($obj) ? $obj->id + 1 : 1;
             DB::table('shops')->insert([
+                'id' => $new_id,
                 'seller_id' => auth('seller')->id(),
                 'name' => auth('seller')->user()->f_name,
                 'address' => '',
