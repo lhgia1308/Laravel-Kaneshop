@@ -9,6 +9,9 @@ use App\Model\SocialMedia;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use RecursiveIteratorIterator;
+use Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
 
 class BusinessSettingsController extends Controller
 {
@@ -623,6 +626,7 @@ class BusinessSettingsController extends Controller
 
         //Define a global variable: $results to join data of all the tables to a string
         $results = "";
+        $class_names = [];
         foreach($names as $name) {
 
             if(isset($request['chk_create_files']))
@@ -649,7 +653,7 @@ class BusinessSettingsController extends Controller
                     if($type == "integer") {
                         // var_dump($value);
                         // return;
-                        $val = empty($value)?'NULL':$value;
+                        $val = $value==""?'NULL':$value;
                     }
                     if($type == "datetime") {
                         // var_dump(date('Y-m-d H:i:s', strtotime('2021-11-26 03:08:48.000')));
@@ -708,6 +712,10 @@ class BusinessSettingsController extends Controller
                 ';
                 // var_dump($results);
             }
+            //Write class names into $name_arr
+            if(isset($request['chk_write_classes'])) {
+                array_push($class_names, $name . "::class");
+            }
         }
         
         //Case not create multi files, write all of datas of many tables into a file
@@ -735,10 +743,187 @@ class BusinessSettingsController extends Controller
             fwrite($file, $template_str);
             fclose($file);
         }
+
+        //Write class names into DatabaseSeeder file
+        if(isset($request['chk_write_classes'])) {
+            // var_dump($name_arr);
+            $results = implode(",\n", $class_names);
+            $template_str = '
+                <?php
+                use Illuminate\Database\Seeder;
+
+                class DatabaseSeeder extends Seeder
+                {
+                    public function run()
+                    {
+                        $this->call([
+                            '.$results.'
+                        ]);
+                    }
+                }
+            ';
+            //Write result to a PHP file
+            $file = fopen('database/seeds/DatabaseSeeder.php', "w") or die("Unable to open file!");
+            fwrite($file, $template_str);
+            fclose($file);
+        }
         
         return response()->json(['success'=>1, 'statusCode'=> 200, 'message' => 'Generated the seed file at folder database/seeds!'], 200);
         // Toastr::success('Generated the seed file at folder database/seeds!');
         // return back();
     }
 
+    public function generate_migration_files(Request $request) {
+        // var_dump($request['table_names']);
+        // var_dump($request['chk_create_files']);
+        // return;
+        // Handle delete files in folder database/migrations
+        $dir = base_path('database/migrations');
+        $files = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);//CHILD_FIRST
+        // var_dump($files);
+        // return;
+        // $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
+        foreach ($files as $file) {
+            if ($file->isDir()) {
+                // rmdir($file->getRealPath());
+            } else {
+                unlink($file->getRealPath());
+            }
+        }
+        // End Handle delete files
+        //Handle create a new file
+        $current_datetime = date('Y_m_d_His');
+        if(isset($request['chk_create_files'])) {
+            
+        }
+        else {
+            file_put_contents(base_path('database/migrations/'.$current_datetime.'_create_all_tables.php'), '');
+        }
+        //End Handle create a new file
+        //Get table names
+        $names = $request['table_names'];
+        //Create the global variables
+        $structure_str = "";
+        $create_str = "";
+        $drop_arr = [];
+        foreach($names as $name) {
+
+            if(isset($request['chk_create_files'])) {
+                file_put_contents(base_path('database/migrations/'.$current_datetime.'_create_'.$name.'_table.php'), '');
+            }
+
+            $columns = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns($name);
+            // $columns = DB::getSchemaBuilder()->getColumnListing($name);
+            foreach ($columns as $column) {
+                // $obj = DB::getSchemaBuilder()->getColumnType($name, $column);
+                $col_type = str_replace("\\", "", $column->getType());
+                $col_name = $column->getName();
+                if($col_name == "id") {
+                    $structure_str = $structure_str.'
+                        $table->integer("id")->primary();
+                    ';
+                }
+                else {
+                    $str = "";
+                    $length = $column->getLength();
+                    switch ($col_type) {
+                        case 'BigInt':
+                            $str = "bigInteger('".$col_name."')";
+                            break;
+                        case 'SmallInt':
+                            $str = "smallInteger('".$col_name."')";
+                            break;
+                        case 'String':
+                            if($length ==0) {
+                                $str = "text('".$col_name."')";
+                            }
+                            else {
+                                $str = "string('".$col_name."', ".$length.")";
+                            }
+                            break;
+                        default:
+                            $str = $col_type."('".$col_name."')";
+                            break;
+                    }
+                    $structure_str = $structure_str.'
+                        $table->'.$str.'->nullable();
+                    ';
+                }
+                
+            }
+
+            if(isset($request['chk_create_files'])) {
+                $create_str = '
+                    Schema::create('."'".$name."'".', function (Blueprint $table) {
+                        '.$structure_str.'
+                    });
+                ';
+                $drop_str = "Schema::dropIfExists('".$name."')";
+                $table_name = str_replace("_", "", ucwords($name, "_"));
+                $template_str = '
+                    <?php
+
+                    use Illuminate\Database\Migrations\Migration;
+                    use Illuminate\Database\Schema\Blueprint;
+                    use Illuminate\Support\Facades\Schema;
+                    
+                    class Create'.$table_name.'Table extends Migration
+                    {
+                        public function up() {
+                            '.$create_str.'
+                        }
+
+                        public function down() {
+                            '.$drop_str.';
+                        }
+                    }
+                ';
+                //Write result to a PHP file
+                $file = fopen('database/migrations/'.$current_datetime.'_create_'.$name.'_table.php', "w") or die("Unable to open file!");
+                fwrite($file, $template_str);
+                fclose($file);
+                //Reset structure_str to get structure of a new table
+                $structure_str = "";
+            }
+            else {
+                $create_str = $create_str.'
+                    Schema::create('."'".$name."'".', function (Blueprint $table) {
+                        '.$structure_str.'
+                    });
+                ';
+                //Reset structure_str to get structure of a new table
+                $structure_str = "";
+                //Add a drop table command into a array
+                array_push($drop_arr, "Schema::dropIfExists('".$name."')");
+            }
+
+        }
+
+        //Write datas into overall files
+        if(!isset($request['chk_create_files'])) {
+            $template_str = '
+                <?php
+
+                use Illuminate\Database\Migrations\Migration;
+                use Illuminate\Database\Schema\Blueprint;
+                use Illuminate\Support\Facades\Schema;
+                
+                class CreateAllTables extends Migration
+                {
+                    public function up() {
+                        '.$create_str.'
+                    }
+
+                    public function down() {
+                        '.implode(";\n", $drop_arr).';
+                    }
+                }
+            ';
+
+            //Write result to a PHP file
+            $file = fopen('database/migrations/'.$current_datetime.'_create_all_tables.php', "w") or die("Unable to open file!");
+            fwrite($file, $template_str);
+            fclose($file);
+        }
+    }
 }

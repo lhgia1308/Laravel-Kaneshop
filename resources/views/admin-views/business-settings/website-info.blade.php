@@ -718,7 +718,7 @@
                 </div>
             </div>
             <!-- End Config Default Statistic Type -->
-            <!-- Config Font -->
+            <!-- Generate seed files -->
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body" style="padding: 20px">
@@ -731,13 +731,17 @@
                                     <input type="checkbox" name="chk_all" id="chk_all_generate_seeds">
                                     <label>Select All</label>
                                 </div>
-                                <div>
+                                <div style="margin-right:40px;">
                                     <input type="checkbox" name="chk_create_files" id="chk_create_seeds" checked="checked">
-                                    <label>Create files</label>
+                                    <label>Create separate files</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="chk_write_classes" id="chk_write_classes">
+                                    <label>Write classes into DatabaseSeeder file</label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Generate seed files</label>
+                                <label>Tables in DB</label>
                                 <select name="table_names[]" id="table_names_generate_seeds" onchange="$('#alert_box').show();"
                                         data-maximum-selection-length="3" class="form-control js-select2-custom"
                                         required multiple=true>
@@ -756,6 +760,43 @@
             </div>
             <!-- End Config Default Statistic Type -->
         </div>
+        <div class="row" style="padding-bottom: 20px">
+            <!-- Generate migration files -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body" style="padding: 20px">
+                    <h4>Generate migration files</h4>
+                        <form id="frm_generate_migration">
+                            @csrf
+                            <div class="form-group" style="display:flex;">
+                                <div style="margin-right:40px;">
+                                    <input type="checkbox" name="chk_all" id="chk_all_generate_migrations">
+                                    <label>Select All</label>
+                                </div>
+                                <div style="margin-right:40px;">
+                                    <input type="checkbox" name="chk_create_files" id="chk_create_migrations">
+                                    <label>Create separate files</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Tables in DB</label>
+                                <select name="table_names[]" id="table_names_generate_migration" onchange="$('#alert_box').show();"
+                                        data-maximum-selection-length="3" class="form-control js-select2-custom"
+                                        required multiple=true>
+                                    @foreach($tables as $key=>$data)
+                                        <option value="{{$data}}">
+                                            {{$data}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="button" id="btn_generate_migrations"
+                                    class="btn btn-primary float-right ml-3">Generate</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -763,6 +804,70 @@
     <script src="{{asset('public/assets/back-end')}}/js/tags-input.min.js"></script>
     <script src="{{ asset('public/assets/select2/js/select2.min.js')}}"></script>
     <script>
+        $('#btn_generate_migrations').click(function() {
+            var table_names = [];
+            table_names = $('#table_names_generate_migration').val();
+            // console.log(table_names.length);
+            if(table_names.length == 0) {
+                Swal.fire({
+                    text: '{{trans('messages.require_choose')}} tables !',
+                    type: 'warning',
+                    confirmButtonColor: '#377dff',
+                    confirmButtonText: 'Yes',
+                    reverseButtons: true
+                });
+                return;
+            }
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to generate files',
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: 'default',
+                confirmButtonColor: '#377dff',
+                cancelButtonText: 'No',
+                confirmButtonText: 'Yes',
+                reverseButtons: true
+            }).then((result) => {
+
+                if (result.value) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                        }
+                    });
+                    $.post({
+                        url: '{{route('admin.business-settings.web-config.generate_migration_files')}}',
+                        data: $('#frm_generate_migration').serialize(),
+                        beforeSend: function() {
+                            $('#loading').show();
+                        },
+                        success: function(response) {
+                            // console.log(response);
+                            if(response.statusCode == 200) {
+                                toastr.success(response.message);
+                            }
+                            // location.reload();
+                        },
+                        complete: function() {
+                            $('#loading').hide();
+                        }
+                    });
+                }
+
+            })
+        });
+        $("#chk_all_generate_migrations").click(function(){
+            if($("#chk_all_generate_migrations").is(':checked') ){
+                $("#table_names_generate_migration > option").prop("selected","selected");// Select All Options
+                $("#table_names_generate_migration").trigger("change");// Trigger change to select 2
+            }else{
+                $("#table_names_generate_migration > option").removeAttr("selected");
+                $("#table_names_generate_migration").trigger("change");// Trigger change to select 2
+            }
+        });
+        //End Generate migration files
+        //Generate seed files
         $('#btn_generate_seeds').click(function() {
             var table_names = [];
             table_names = $('#table_names_generate_seeds').val();
@@ -806,7 +911,7 @@
                             if(response.statusCode == 200) {
                                 toastr.success(response.message);
                             }
-                            location.reload();
+                            // location.reload();
                         },
                         complete: function() {
                             $('#loading').hide();

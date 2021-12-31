@@ -1,6 +1,13 @@
+
+$columns = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns($name);
+// $column->getName();
+            // $column->getNotnull(); // returns true/false
+            // $column->getDefault(); 
+            // $column->getType(); 
+            // $column->getLength();
+
 ***Noting use generate auto seed files
     value of data of columns have contain ' char => remove ' char
-
 
 ****Create a migration
     php artisan make:migration create_admins_tabble --create=admins --path=database/migrations/set_increment_id
