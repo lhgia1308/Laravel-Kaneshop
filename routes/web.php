@@ -132,6 +132,23 @@ Route::group(['prefix' => 'shop', 'as' => 'shop.', 'namespace' => 'Seller\Auth']
 
 });
 
+//Utility Database
+Route::group(['prefix' => 'utils', 'as' => 'utils.', 'namespace' => 'Utils'], function() {
+
+    Route::get('/', 'UtilsController@index')->name('index');
+
+    Route::group(['prefix' => 'database', 'as' => 'database.'], function() {
+        Route::get('/', 'DatabaseController@index')->name('index');
+        Route::post('check_connection', 'DatabaseController@check_connection')->name('check_connection');
+        Route::post('save_connection', 'DatabaseController@save_connection')->name('save_connection');
+        Route::post('load_connection', 'DatabaseController@load_connection')->name('load_connection');
+        Route::post('load_tables', 'DatabaseController@load_tables')->name('load_tables');
+        Route::post('download_migration_files', 'DatabaseController@download_migration_files')->name('download_migration_files');
+        Route::post('download_seed_files', 'DatabaseController@download_seed_files')->name('download_seed_files');
+    });
+
+});
+
 //check done
 
 Route::group(['prefix' => 'cart', 'as' => 'cart.', 'namespace' => 'Web'], function () {

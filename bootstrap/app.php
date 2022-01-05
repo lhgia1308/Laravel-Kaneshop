@@ -43,6 +43,10 @@ $app->singleton(
 
 // $app->register(Yajra\Oci8\Oci8ServiceProvider::class);
 
+// $app->withFacades();
+
+// $app->withEloquent();
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

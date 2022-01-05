@@ -1,4 +1,7 @@
 
+
+https://6amtech.com/software-activation
+
 $columns = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns($name);
 // $column->getName();
             // $column->getNotnull(); // returns true/false

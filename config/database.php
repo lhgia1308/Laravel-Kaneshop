@@ -63,6 +63,26 @@ return [
             ]) : [],
         ],
 
+        'mysql1' => [
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL'),
+            'host' => 'localhost',
+            'port' => '',
+            'database' => 'kaneshop',
+            'username' => 'root',
+            'password' => '',
+            'unix_socket' => '',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => false,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : []
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
@@ -91,6 +111,19 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'sqlsrv1' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => 'localhost',
+            'port' => '1433',
+            'database' => 'kaneshop',
+            'username' => 'sa',
+            'password' => 'Giale1308',
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ],
+
         'oracle' => [
             // 'tns'            => env('DB_TNS', ''),
             'driver' => 'oracle',
@@ -101,6 +134,23 @@ return [
             'service_name' => env('DB_SERVICE_NAME', ''),
             'username' => env('DB_USERNAME', ''),
             'password' => env('DB_PASSWORD', ''),
+            'charset' => env('DB_CHARSET', 'AL32UTF8'),
+            'prefix' => env('DB_PREFIX', ''),
+            'prefix_schema'  => env('DB_SCHEMA_PREFIX', ''),
+            'edition'        => env('DB_EDITION', 'ora$base'),
+            'server_version' => env('DB_SERVER_VERSION', '11g')
+        ],
+
+        'oracle1' => [
+            // 'tns'            => env('DB_TNS', ''),
+            'driver' => 'oracle',
+            // 'host' => 'oracle.host',
+            'host' => 'localhost',
+            'port' => '1521',
+            'database' => '',
+            'service_name' => 'DBSTNMT3110',
+            'username' => 'mc_haugiang',
+            'password' => 'Giale1308',
             'charset' => env('DB_CHARSET', 'AL32UTF8'),
             'prefix' => env('DB_PREFIX', ''),
             'prefix_schema'  => env('DB_SCHEMA_PREFIX', ''),
