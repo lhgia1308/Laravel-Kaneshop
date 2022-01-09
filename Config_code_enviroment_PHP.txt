@@ -1,4 +1,5 @@
 Config enviroment code PHP
+- Composer
 - Xampp with PHP 7.4.25
 - To connect to oracle: 
 + add lib: php_oci8_11g.dll with Oracle 11g or php_oci8_12c.dll with Oracle 12c to folder xampp/php/ext

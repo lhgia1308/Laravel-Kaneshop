@@ -179,8 +179,8 @@ return [
         \App\Providers\PaymentConfigProvider::class,
         \App\Providers\ConfigServiceProvider::class,
         Laravelpkg\Laravelchk\LaravelchkServiceProvider::class,
-        Amirami\Localizator\ServiceProvider::class,
-        Yajra\Oci8\Oci8ServiceProvider::class,
+        Amirami\Localizator\ServiceProvider::class
+        // Yajra\Oci8\Oci8ServiceProvider::class,
     ],
 
     /*
