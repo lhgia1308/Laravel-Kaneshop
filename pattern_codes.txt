@@ -1,5 +1,38 @@
 
 
+***Config run multi website with Xampp
+- Open file httpd.conf in C:\xampp\apache\conf
+- Add port
+E.g: Listen 83
+- Open file: httpd-vhosts.conf in C:\xampp\apache\conf\extra
+- Add VirtualHost
+E.g: 
+NameVirtualHost *:82
+<VirtualHost *:82>
+    DocumentRoot "G:/Sources/Laravel/test_nfq"
+    ServerName kaneshopgithub.localhost
+    ServerAlias www.kaneshopgithub.localhost
+    ErrorLog "C:/xampp/apache/logs/kaneshopgithub.localhost-error.log"
+    <Directory "G:/Sources/Laravel/test_nfq">
+        Options All
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+
+NameVirtualHost *:83
+<VirtualHost *:83>
+    DocumentRoot "G:/Sources/Laravel/test_nfq"
+    ServerName localhost:83
+    ServerAlias www.localhost:83
+    ErrorLog "C:/xampp/apache/logs/test_nfq-error.log"
+    <Directory "G:/Sources/Laravel/test_nfq">
+        Options All
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+
 https://6amtech.com/software-activation
 
 $columns = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns($name);
