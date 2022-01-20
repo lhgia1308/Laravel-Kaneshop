@@ -40,8 +40,8 @@ class ConfigController extends Controller
             'currency_list' => $currency,
             'currency_symbol_position' => Helpers::get_business_settings('currency_symbol_position') ?? 'right',
             'maintenance_mode' => (boolean)Helpers::get_business_settings('maintenance_mode') ?? 0,
-            'language_list' => Helpers::get_business_settings('app_language'),
-            'default_language' => Helpers::get_business_settings('app_default_language'),
+            'app_language_list' => Helpers::get_business_settings('app_language'),
+            'app_default_language' => Helpers::get_business_settings('app_default_language'),
         ]);
     }
 }
