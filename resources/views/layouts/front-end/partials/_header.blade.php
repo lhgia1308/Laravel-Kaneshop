@@ -119,7 +119,7 @@
                         $default_language = \App\Model\BusinessSetting::where('type','default_language')->first();
                         $locale = "en";
                         if(isset($default_language)){
-                            $locale = json_decode($default_language['value'],true)['default_language'];
+                            $locale = json_decode($default_language['value'],true);
                             /* var_dump($locale); */
                         }
                     }

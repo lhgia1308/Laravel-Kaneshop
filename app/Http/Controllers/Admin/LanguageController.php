@@ -244,9 +244,7 @@ class LanguageController extends Controller
         // return;
         if(isset($language)){
             BusinessSetting::where('type','default_language')->update([
-                'value' => json_encode([
-                    'default_language' => $lang
-                ]),
+                'value' => $lang,
             ]);
         } else {
             $obj = BusinessSetting::orderBy('id', 'desc')->first();
@@ -254,9 +252,7 @@ class LanguageController extends Controller
             DB::table('business_settings')->insert([
                 'id' => $new_id,
                 'type' => 'default_language',
-                'value' => json_encode([
-                    'default_language' => $lang
-                ]),
+                'value' => $lang,
             ]);
         }
         return back();
