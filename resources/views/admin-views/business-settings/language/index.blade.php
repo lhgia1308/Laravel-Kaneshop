@@ -105,10 +105,10 @@
                                 <tbody>
                                 @php
                                     $language=App\Model\BusinessSetting::where('type','app_language')->first();
-                                    $default_language=App\Model\BusinessSetting::where('type','app_default_language')->first();
+                                    $default_language=App\Model\BusinessSetting::where('type','default_language')->first();
                                     $default_lang_code = "en";
                                     if(isset($default_language)){
-                                        $default_lang_code = json_decode($default_language['value'],true);
+                                        $default_lang_code = $default_language['value'];
                                     }
                                 @endphp
                                 @foreach(json_decode($language['value'],true) as $key =>$data)

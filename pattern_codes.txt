@@ -67,6 +67,10 @@ Route::get('/clear', function() {
     php artisan config:clear
     php artisan route:cache
     php artisan optimize --force
+    composer install
+    composer update
+    composer clear-cache
+
 ****Create a migration
     php artisan make:migration create_admins_tabble --create=admins --path=database/migrations/set_increment_id
 

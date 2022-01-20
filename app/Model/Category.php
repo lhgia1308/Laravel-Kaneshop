@@ -54,7 +54,7 @@ class Category extends Model
                 $language = \App\Model\BusinessSetting::where('type','default_language')->first();
                 $default_language = 'en';
                 if(isset($language)){
-                    $default_language = json_decode($language['value'],true);
+                    $default_language = $language['value'];
                 }
                 $locale = session()->get('locale')??$default_language;
                 return $query->where('locale', $locale);
