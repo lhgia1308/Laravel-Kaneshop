@@ -306,6 +306,19 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
                 Route::get('delete/{lang}', 'LanguageController@delete')->name('delete');
                 Route::get('delete_language/{lang}', 'LanguageController@delete_language')->name('delete_language');
             });
+            Route::group(['prefix' => 'app-language', 'as' => 'app-language.','middleware'=>['module:business_settings']], function () {
+                Route::get('', 'AppLanguageController@index')->name('index');
+                Route::post('edit_language', 'AppLanguageController@edit_language')->name('edit_language');
+                Route::post('add-new', 'AppLanguageController@store')->name('add-new');
+                Route::post('add_new_language', 'AppLanguageController@add_new_language')->name('add_new_language');
+                Route::get('update-status', 'AppLanguageController@update_status')->name('update-status');
+                Route::get('translate/{lang}', 'AppLanguageController@translate')->name('translate');
+                Route::post('translate-submit/{lang}', 'AppLanguageController@translate_submit')->name('translate-submit');
+                Route::post('translate-sync', 'AppLanguageController@translate_sync')->name('translate-sync');
+                Route::get('set_default_language/{lang}', 'AppLanguageController@set_default_language')->name('set_default_language');
+                Route::get('delete/{lang}', 'AppLanguageController@delete')->name('delete');
+                Route::get('delete_language/{lang}', 'AppLanguageController@delete_language')->name('delete_language');
+            });
 
             Route::group(['prefix' => 'mail', 'as' => 'mail.','middleware'=>['module:web_&_app_settings']], function () {
                 Route::get('', 'MailController@index')->name('index')->middleware('actch');

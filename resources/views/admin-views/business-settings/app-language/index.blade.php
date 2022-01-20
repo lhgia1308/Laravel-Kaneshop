@@ -1,5 +1,5 @@
 @extends('layouts.back-end.app')
-@section('title','Language')
+@section('title','App Language')
 @push('css_or_js')
     <!-- Custom styles for this page -->
     <link href="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -74,7 +74,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{trans('messages.Dashboard')}}</a>
                 </li>
-                <li class="breadcrumb-item" aria-current="page">{{trans('messages.language_setting')}}</li>
+                <li class="breadcrumb-item" aria-current="page">{{trans('messages.app_language_setting')}}</li>
             </ol>
         </nav>
 
@@ -82,7 +82,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>{{trans('messages.language_table')}}</h5>
+                        <h5>{{trans('messages.app_language_table')}}</h5>
                         <button class="btn btn-primary btn-icon-split float-right" data-toggle="modal"
                                 data-target="#lang-modal">
                             <i class="tio-add-circle"></i>
@@ -142,15 +142,15 @@
                                                     @if($data['code']!=$default_lang_code)
                                                         @if($data['status']==1)
                                                             <a class="dropdown-item"
-                                                                href="{{route('admin.business-settings.language.set_default_language',[$data['code']])}}">{{trans('messages.default_language')}}
+                                                                href="{{route('admin.business-settings.app-language.set_default_language',[$data['code']])}}">{{trans('messages.default_language')}}
                                                             </a>
                                                         @endif
-                                                        <button class="dropdown-item" onclick="deleteLanguage('{{route('admin.business-settings.language.delete',[$data['code']])}}')">
+                                                        <button class="dropdown-item" onclick="deleteLanguage('{{route('admin.business-settings.app-language.delete',[$data['code']])}}')">
                                                             {{trans('messages.Delete')}}
                                                         </button>
                                                     @endif
                                                     <a class="dropdown-item"
-                                                        href="{{route('admin.business-settings.language.translate',[$data['code']])}}">{{trans('messages.Translate')}}</a>
+                                                        href="{{route('admin.business-settings.app-language.translate',[$data['code']])}}">{{trans('messages.Translate')}}</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -174,7 +174,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="{{route('admin.business-settings.language.add-new')}}" method="post">
+                    <form action="{{route('admin.business-settings.app-language.add-new')}}" method="post">
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">

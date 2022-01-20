@@ -93,7 +93,7 @@
   'buy_now' => 'Buy Now',
   'Cancel' => 'Cancel',
   'canceled' => 'Canceled',
-  'Cart' => 'Giỏ hàng',
+  'Cart' => 'Cart',
   'cash_on_delivery' => 'Cash on Delivery',
   'categories' => 'Categories',
   'category' => 'Category',
@@ -647,6 +647,7 @@
   'by_admin' => 'By Admin',
   'by_seller' => 'By Sellers',
   'languages' => 'Languages',
+  'language_list' => 'Language List',
   'for_data_entry' => 'For Data Entry',
   'for_website' => 'For Website',
   'currencies' => 'Currencies',
@@ -669,11 +670,15 @@
   'confirm_data_update' => 'Do you want to update data',
   'detail' => 'Detail',
   'download' => 'Download',
-  'require_choose' => 'Please choose',
-  'position' => 'Position',
-  'config_default_statistic_type' => 'Config Default Statistic Type',
-  'statistic_type_list' => 'Statistic Type List',
-  'from_date' => 'From day',
-  'to_date' => 'To day',
-  'format_wrong' => 'Format wrong',
+  'require_choose' => 'Please choose'
+  ,'position' => 'Position'
+  ,'config_default_statistic_type' => 'Config Default Statistic Type'
+  ,'statistic_type_list' => 'Statistic Type List'
+  ,'from_date' => 'From day'
+  ,'to_date' => 'To day'
+  ,'format_wrong' => 'Format wrong'
+  ,'app_language_table' => 'App language table'
+  ,'app_language_setting' => 'App language settings'
+  ,'for_app' => 'For App Mobile'
+  ,'translate_app_language' => 'Translate app language'
 );

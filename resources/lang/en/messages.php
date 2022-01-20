@@ -647,6 +647,7 @@
   'by_admin' => 'By Admin',
   'by_seller' => 'By Sellers',
   'languages' => 'Languages',
+  'language_list' => 'Language List',
   'for_data_entry' => 'For Data Entry',
   'for_website' => 'For Website',
   'currencies' => 'Currencies',
@@ -676,4 +677,8 @@
   ,'from_date' => 'From day'
   ,'to_date' => 'To day'
   ,'format_wrong' => 'Format wrong'
+  ,'app_language_table' => 'App language table'
+  ,'app_language_setting' => 'App language settings'
+  ,'for_app' => 'For App Mobile'
+  ,'translate_app_language' => 'Translate app language'
 );

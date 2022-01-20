@@ -113,13 +113,17 @@ class LanguageController extends Controller
     public function store(Request $request)
     {
         $language = BusinessSetting::where('type', 'language')->first();
+        // var_dump(json_decode($language['value'], true));
+        // return;
         $lang_array = [];
         foreach (json_decode($language['value'], true) as $key => $data) {
             if ($data['code'] != $request['code']) {
                 array_push($lang_array, $data);
             }
         }
+        
         $lang_arr = json_decode($language['value'], true);
+        
         $ids = array_map(fn($lang): int => $lang['id'], $lang_arr);
         // var_dump(max($ids));
         // return;
@@ -140,7 +144,7 @@ class LanguageController extends Controller
         ]);
 
         BusinessSetting::where('type', 'language')->update([
-            'value' => $lang_array
+            'value' => json_encode($lang_array)
         ]);
 
         return back();
@@ -173,7 +177,7 @@ class LanguageController extends Controller
             }
         }
         BusinessSetting::where('type', 'language')->update([
-            'value' => $lang_array
+            'value' => json_encode($lang_array)
         ]);
     }
 
@@ -268,7 +272,7 @@ class LanguageController extends Controller
             }
         }
         BusinessSetting::where('type', 'language')->update([
-            'value' => $lang_array
+            'value' => json_encode($lang_array)
         ]);
 
         $dir = base_path('resources/lang/' . $lang);

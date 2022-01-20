@@ -65,6 +65,11 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
         Route::get('products/{category_id}', 'CategoryController@get_products');
     });
 
+    Route::group(['prefix' => 'language'], function() {
+        Route::get('/', 'AppLanguageController@get_languages');
+        Route::get('{code}', 'AppLanguageController@get_language');
+    });
+
     Route::group(['prefix' => 'customer', 'middleware' => 'auth:api'], function () {
         Route::get('info', 'CustomerController@info');
         Route::put('update-profile', 'CustomerController@update_profile');

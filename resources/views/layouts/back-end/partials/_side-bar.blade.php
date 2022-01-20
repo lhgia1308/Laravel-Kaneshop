@@ -531,11 +531,11 @@
                                            href="{{route('admin.business-settings.language.index-manage')}}">
                                             <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
-                                              {{trans('messages.languages')}}
+                                              {{trans('messages.language_list')}}
                                             </span>
                                         </a>
                                     </li>
-                                    <li class="nav-item {{Request::is('admin/business-settings/language/app')?'active':''}}">
+                                    <!-- <li class="nav-item {{Request::is('admin/business-settings/language/app')?'active':''}}">
                                         <a class="nav-link"
                                            href="{{route('admin.business-settings.language.index-app')}}">
                                             <span class="tio-circle nav-indicator-icon"></span>
@@ -543,13 +543,22 @@
                                               {{trans('messages.for_data_entry')}}
                                             </span>
                                         </a>
-                                    </li>
+                                    </li> -->
                                     <li class="nav-item {{Request::is('admin/business-settings/language')?'active':''}}">
                                         <a class="nav-link"
                                            href="{{route('admin.business-settings.language.index')}}">
                                             <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                {{trans('messages.for_website')}}
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item {{Request::is('admin/business-settings/app-language')?'active':''}}">
+                                        <a class="nav-link"
+                                           href="{{route('admin.business-settings.app-language.index')}}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">
+                                               {{trans('messages.for_app')}}
                                             </span>
                                         </a>
                                     </li>
