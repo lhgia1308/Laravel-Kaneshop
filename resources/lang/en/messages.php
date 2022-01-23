@@ -681,4 +681,5 @@
   ,'app_language_setting' => 'App language settings'
   ,'for_app' => 'For App Mobile'
   ,'translate_app_language' => 'Translate app language'
+  ,'country_code' => 'Country code'
 );

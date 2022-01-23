@@ -97,7 +97,9 @@
                                     <th scope="col">{{ trans('messages.SL#')}}</th>
                                     <th scope="col">{{trans('messages.Id')}}</th>
                                     <th scope="col">{{trans('messages.name')}}</th>
-                                    <th scope="col">{{trans('messages.Code')}}Code</th>
+                                    <th scope="col">{{trans('messages.Code')}}</th>
+                                    <th scope="col">{{trans('messages.country_code')}}</th>
+                                    <th scope="col">{{trans('messages.icon')}}</th>
                                     <th scope="col">{{trans('messages.status')}}</th>
                                     <th scope="col" style="width: 100px" class="text-center">{{trans('messages.action')}}</th>
                                 </tr>
@@ -117,6 +119,10 @@
                                         <td>{{$data['id']}}</td>
                                         <td>{{$data['name']}}</td>
                                         <td>{{$data['code']}}</td>
+                                        <td>{{$data['country_code']}}</td>
+                                        <td>
+                                            <img src="{{asset('storage/app/public/language/')}}/{{$data['image']}}" />
+                                        </td>
                                         <td>
                                             <label class="switch">
                                                 @if($data['code']!=$default_lang_code)
@@ -181,6 +187,11 @@
                                 <label for="recipient-name"
                                        class="col-form-label">{{trans('messages.language')}} </label>
                                 <input type="text" class="form-control" id="recipient-name" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient-name"
+                                       class="col-form-label">{{trans('messages.country_code')}} </label>
+                                <input type="text" class="form-control" id="recipient" name="country_code">
                             </div>
                             <div class="form-group">
                                 <label for="message-text"

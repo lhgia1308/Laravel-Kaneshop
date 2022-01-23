@@ -20,6 +20,7 @@ class ConfigController extends Controller
                 'product_image_url' => ProductManager::product_image_path('product'),
                 'product_thumbnail_url' => ProductManager::product_image_path('thumbnail'),
                 'brand_image_url' => asset('storage/app/public/brand'),
+                'language_image_url' => asset('storage/app/public/language'),
                 'customer_image_url' => asset('storage/app/public/profile'),
                 'banner_image_url' => asset('storage/app/public/banner'),
                 'category_image_url' => asset('storage/app/public/category'),

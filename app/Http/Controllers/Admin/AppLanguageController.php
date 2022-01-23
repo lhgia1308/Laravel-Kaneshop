@@ -45,10 +45,17 @@ class AppLanguageController extends Controller
         $read = file_get_contents(base_path('resources/app-lang/en/messages.php'));
         fwrite($lang_file, $read);
 
+        $langImage = "";
+        $lang = Language::where('code', $request['code'])->first();
+        if(isset($lang))
+            $langImage = $lang['image'];
+
         array_push($lang_array, [
             'id' => max($ids) + 1,
             'name' => $request['name'],
             'code' => $request['code'],
+            'country_code' => strtoupper($request['country_code']),
+            'image' => $langImage,
             'status' => 0,
         ]);
 
@@ -69,6 +76,8 @@ class AppLanguageController extends Controller
                         'id' => $data['id'],
                         'name' => $data['name'],
                         'code' => $data['code'],
+                        'country_code' => $data['country_code'],
+                        'image' => $data['image'],
                         'status' => 0,
                     ];
                 } else {
@@ -76,6 +85,8 @@ class AppLanguageController extends Controller
                         'id' => $data['id'],
                         'name' => $data['name'],
                         'code' => $data['code'],
+                        'country_code' => $data['country_code'],
+                        'image' => $data['image'],
                         'status' => 1,
                     ];
                 }
