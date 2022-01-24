@@ -114,16 +114,13 @@
             <div>
                 @php
                     $locale = session()->get('locale') ;
-                    /* var_dump(['local_before'=>$locale]); */
                     if ($locale==""){
                         $default_language = \App\Model\BusinessSetting::where('type','default_language')->first();
                         $locale = "en";
                         if(isset($default_language)){
                             $locale = $default_language['value'];
-                            /* var_dump($locale); */
                         }
                     }
-                    /* var_dump(['local_affter'=>$locale]); */
                     App::setLocale($locale);
                     \App\CPU\Helpers::currency_load();
                     $currency_code = session('currency_code');
