@@ -113,15 +113,7 @@
         <div class="container ">
             <div>
                 @php
-                    $locale = session()->get('locale') ;
-                    if ($locale==""){
-                        $default_language = \App\Model\BusinessSetting::where('type','default_language')->first();
-                        $locale = "en";
-                        if(isset($default_language)){
-                            $locale = $default_language['value'];
-                        }
-                    }
-                    App::setLocale($locale);
+                    $locale = App::getLocale();
                     \App\CPU\Helpers::currency_load();
                     $currency_code = session('currency_code');
                     $currency_symbol= session('currency_symbol');

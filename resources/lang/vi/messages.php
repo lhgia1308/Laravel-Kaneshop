@@ -95,7 +95,7 @@
   'canceled' => 'Canceled',
   'Cart' => 'Cart',
   'cash_on_delivery' => 'Cash on Delivery',
-  'categories' => 'Categories',
+  'categories' => 'Danh mục',
   'category' => 'Category',
   'Category' => 'Category',
   'category_form' => 'Category Form',
@@ -670,15 +670,15 @@
   'confirm_data_update' => 'Do you want to update data',
   'detail' => 'Detail',
   'download' => 'Download',
-  'require_choose' => 'Please choose'
-  ,'position' => 'Position'
-  ,'config_default_statistic_type' => 'Config Default Statistic Type'
-  ,'statistic_type_list' => 'Statistic Type List'
-  ,'from_date' => 'From day'
-  ,'to_date' => 'To day'
-  ,'format_wrong' => 'Format wrong'
-  ,'app_language_table' => 'App language table'
-  ,'app_language_setting' => 'App language settings'
-  ,'for_app' => 'For App Mobile'
-  ,'translate_app_language' => 'Translate app language'
+  'require_choose' => 'Please choose',
+  'position' => 'Position',
+  'config_default_statistic_type' => 'Config Default Statistic Type',
+  'statistic_type_list' => 'Statistic Type List',
+  'from_date' => 'From day',
+  'to_date' => 'To day',
+  'format_wrong' => 'Format wrong',
+  'app_language_table' => 'App language table',
+  'app_language_setting' => 'App language settings',
+  'for_app' => 'For App Mobile',
+  'translate_app_language' => 'Translate app language',
 );
