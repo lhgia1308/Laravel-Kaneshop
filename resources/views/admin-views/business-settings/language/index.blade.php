@@ -97,14 +97,14 @@
                                     <th scope="col">{{ trans('messages.SL#')}}</th>
                                     <th scope="col">{{trans('messages.Id')}}</th>
                                     <th scope="col">{{trans('messages.name')}}</th>
-                                    <th scope="col">{{trans('messages.Code')}}Code</th>
+                                    <th scope="col">{{trans('messages.Code')}}</th>
                                     <th scope="col">{{trans('messages.status')}}</th>
                                     <th scope="col" style="width: 100px" class="text-center">{{trans('messages.action')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @php
-                                    $language=App\Model\BusinessSetting::where('type','app_language')->first();
+                                    $language=App\Model\BusinessSetting::where('type','language')->first();
                                     $default_language=App\Model\BusinessSetting::where('type','default_language')->first();
                                     $default_lang_code = "en";
                                     if(isset($default_language)){

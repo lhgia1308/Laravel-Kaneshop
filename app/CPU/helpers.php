@@ -590,7 +590,7 @@ class Helpers
             "ur" => "Urdu - اردو",
             "ug" => "Uyghur",
             "uz" => "Uzbek - o‘zbek",
-            "vn" => "Vietnamese - Tiếng Việt",
+            "vi" => "Vietnamese - Tiếng Việt",
             "wa" => "Walloon - wa",
             "cy" => "Welsh - Cymraeg",
             "fy" => "Western Frisian",

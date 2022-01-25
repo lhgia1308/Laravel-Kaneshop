@@ -9,6 +9,9 @@ use App\Model\Translation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\DB;
+use Amirami\Localizator\Contracts\Translatable;
+use Svg\Tag\Image;
 
 class CategoryController extends Controller
 {
@@ -28,7 +31,9 @@ class CategoryController extends Controller
             'image.required' => 'Category image is required!',
         ]);
 
+        $new_category_id = DB::table('categories')->max('id') + 1;
         $category = new Category;
+        $category->id = $new_category_id;
         $category->name = $request->name[array_search('en', $request->lang)];
         $category->slug = Str::slug($request->name[array_search('en', $request->lang)]);
         $category->icon = ImageManager::upload('category/', 'png', $request->file('image'));
@@ -37,11 +42,13 @@ class CategoryController extends Controller
         $category->save();
 
         $data = [];
+        $new_id = DB::table('translations')->max('id') + 1;
         foreach ($request->lang as $index => $key) {
             if ($request->name[$index] && $key != 'en') {
                 array_push($data, array(
+                    'id' => $new_id++,
                     'translationable_type' => 'App\Model\Category',
-                    'translationable_id' => $category->id,
+                    'translationable_id' => $new_category_id,
                     'locale' => $key,
                     'key' => 'name',
                     'value' => $request->name[$index],
@@ -77,10 +84,12 @@ class CategoryController extends Controller
         foreach ($request->lang as $index => $key) {
             if ($request->name[$index] && $key != 'en') {
                 Translation::updateOrInsert(
-                    ['translationable_type' => 'App\Model\Category',
+                    [
+                        'translationable_type' => 'App\Model\Category',
                         'translationable_id' => $category->id,
                         'locale' => $key,
-                        'key' => 'name'],
+                        'key' => 'name'
+                    ],
                     ['value' => $request->name[$index]]
                 );
             }
@@ -104,7 +113,13 @@ class CategoryController extends Controller
                 Category::destroy($category->id);
             }
         }
+        //Delete image
+        $cat = Category::where('id', $request->id)->first();
+        ImageManager::delete('category/'.$cat->icon);
+        //Delete category
         Category::destroy($request->id);
+        //Delete translation
+        Translation::where(['translationable_type' => 'App\Model\Category', 'translationable_id' => $request->id])->delete();
         return response()->json();
     }
 

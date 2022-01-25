@@ -124,6 +124,20 @@
 @endpush
 
 @section('content')
+@php
+    $language_obj = \App\Model\BusinessSetting::where('type','language')->first();
+    $languageList = json_decode($language_obj['value']);
+    
+    $languages = [];
+    foreach($languageList as $lang) {
+        array_push($languages, $lang);
+    }
+    
+    $default_lang = 'en';
+    $default_lang_obj = \App\Model\BusinessSetting::where('type','default_language')->first();
+    if(isset($default_lang_obj))
+        $default_lang = $default_lang_obj['value'];
+@endphp
     <!-- Page Heading -->
     <div class="content container-fluid">
         <nav aria-label="breadcrumb">
@@ -146,23 +160,20 @@
 
                     <div class="card">
                         <div class="card-header">
-                            @php($language=\App\Model\BusinessSetting::where('type','pnc_language')->first())
-                            @php($language = $language->value ?? null)
-                            @php($default_lang = 'en')
-
-                            @php($default_lang = json_decode($language)[0])
                             <ul class="nav nav-tabs mb-4">
-                                @foreach(json_decode($language) as $lang)
+                                @foreach($languages as $langObj)
+                                @php($lang = $langObj->code)
                                     <li class="nav-item">
                                         <a class="nav-link lang_link {{$lang == $default_lang? 'active':''}}" href="#"
-                                           id="{{$lang}}-link">{{\App\CPU\Helpers::get_language_name($lang).'('.strtoupper($lang).')'}}</a>
+                                           id="{{$lang}}-link">{{$langObj->name.'('.strtoupper($lang).')'}}</a>
                                     </li>
                                 @endforeach
                             </ul>
                         </div>
 
                         <div class="card-body">
-                            @foreach(json_decode($language) as $lang)
+                            @foreach($languages as $langObj)
+                            @php($lang = $langObj->code)
                                 <?php
                                 if (count($product['translations'])) {
                                     $translate = [];

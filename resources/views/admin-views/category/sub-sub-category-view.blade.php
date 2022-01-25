@@ -26,13 +26,17 @@
                     <div class="card-body">
                         <form action="{{route('admin.sub-sub-category.store')}}" method="POST">
                             @csrf
-                            @php($language=\App\Model\BusinessSetting::where('type','pnc_language')->first())
-                            @php($language = $language->value ?? null)
+                            @php($language_obj = \App\Model\BusinessSetting::where('type','language')->first())
+                            @php($languageList = json_decode($language_obj->value, true))
+
                             @php($default_lang = 'en')
-                            @if($language)
-                                @php($default_lang = json_decode($language)[0])
+                            @php($default_lang_obj = \App\Model\BusinessSetting::where('type','default_language')->first())
+                            @php($default_lang = $default_lang_obj->value)
+
+                            @if(isset($languageList))
                                 <ul class="nav nav-tabs mb-4">
-                                    @foreach(json_decode($language) as $lang)
+                                    @foreach($languageList as $langArr)
+                                    @php($lang = $langArr['code'])
                                         <li class="nav-item">
                                             <a class="nav-link lang_link {{$lang == $default_lang? 'active':''}}"
                                                href="#"
@@ -41,7 +45,8 @@
                                     @endforeach
                                 </ul>
                                 <div class="row">
-                                    @foreach(json_decode($language) as $lang)
+                                    @foreach($languageList as $langArr)
+                                    @php($lang = $langArr['code'])
                                         <div
                                             class="col-12 form-group {{$lang != $default_lang ? 'd-none':''}} lang_form"
                                             id="{{$lang}}-form">

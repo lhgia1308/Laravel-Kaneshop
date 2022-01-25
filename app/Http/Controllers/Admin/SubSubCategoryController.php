@@ -8,6 +8,7 @@ use App\Model\Translation;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class SubSubCategoryController extends Controller
 {
@@ -19,19 +20,25 @@ class SubSubCategoryController extends Controller
 
     public function store(Request $request)
     {
+        $new_category_id = DB::table('categories')->max('id') + 1;
         $category = new Category;
+        $category->id = $new_category_id;
         $category->name = $request->name[array_search('en', $request->lang)];
         $category->slug = Str::slug($request->name[array_search('en', $request->lang)]);
         $category->parent_id = $request->parent_id;
         $category->position = 2;
         $category->save();
+
+        $new_id = DB::table('translations')->max('id') + 1;
         foreach($request->lang as $index=>$key)
         {
             if($request->name[$index] && $key != 'en')
             {
                 Translation::updateOrInsert(
-                    ['translationable_type'  => 'App\Model\Category',
-                        'translationable_id'    => $category->id,
+                    [
+                        'id' => $new_id++,
+                        'translationable_type'  => 'App\Model\Category',
+                        'translationable_id'    => $new_category_id,
                         'locale'                => $key,
                         'key'                   => 'name'],
                     ['value'                 => $request->name[$index]]
@@ -60,6 +67,8 @@ class SubSubCategoryController extends Controller
     public function delete(Request $request)
     {
         Category::destroy($request->id);
+        //Delete translation
+        Translation::where(['translationable_type' => 'App\Model\Category', 'translationable_id' => $request->id])->delete();
         return response()->json();
     }
     public function fetch(Request $request){

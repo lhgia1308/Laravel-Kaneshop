@@ -88,7 +88,9 @@ class ProductController extends Controller
             });
         }
 
+        $new_product_id = DB::table('products')->max('id') + 1;
         $product = new Product();
+        $product->id = $new_product_id;
         $product->user_id = auth('seller')->id();
         $product->added_by = "seller";
         $product->name = $request->name[array_search('en', $request->lang)];
@@ -220,11 +222,13 @@ class ProductController extends Controller
         } else {
             $product->save();
             $data = [];
+            $new_id = DB::table('translations')->max('id') + 1;
             foreach ($request->lang as $index => $key) {
                 if ($request->name[$index] && $key != 'en') {
                     array_push($data, array(
+                        'id' => $new_id++,
                         'translationable_type' => 'App\Model\Product',
-                        'translationable_id' => $product->id,
+                        'translationable_id' => $new_product_id,
                         'locale' => $key,
                         'key' => 'name',
                         'value' => $request->name[$index],
@@ -232,8 +236,9 @@ class ProductController extends Controller
                 }
                 if ($request->description[$index] && $key != 'en') {
                     array_push($data, array(
+                        'id' => $new_id++,
                         'translationable_type' => 'App\Model\Product',
-                        'translationable_id' => $product->id,
+                        'translationable_id' => $new_product_id,
                         'locale' => $key,
                         'key' => 'description',
                         'value' => $request->description[$index],
@@ -473,7 +478,8 @@ class ProductController extends Controller
             foreach ($request->lang as $index => $key) {
                 if ($request->name[$index] && $key != 'en') {
                     Translation::updateOrInsert(
-                        ['translationable_type' => 'App\Model\Product',
+                        [
+                            'translationable_type' => 'App\Model\Product',
                             'translationable_id' => $product->id,
                             'locale' => $key,
                             'key' => 'name'],
@@ -482,7 +488,8 @@ class ProductController extends Controller
                 }
                 if ($request->description[$index] && $key != 'en') {
                     Translation::updateOrInsert(
-                        ['translationable_type' => 'App\Model\Product',
+                        [
+                            'translationable_type' => 'App\Model\Product',
                             'translationable_id' => $product->id,
                             'locale' => $key,
                             'key' => 'description'],
@@ -532,6 +539,8 @@ class ProductController extends Controller
         $product->delete();
         FlashDealProduct::where(['product_id' => $id])->delete();
         DealOfTheDay::where(['product_id' => $id])->delete();
+        //Delete translation
+        Translation::where(['translationable_type' => 'App\Model\Product', 'translationable_id' => $id])->delete();
         Toastr::success('Product removed successfully!');
         return back();
     }

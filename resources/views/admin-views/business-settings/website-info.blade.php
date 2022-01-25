@@ -710,8 +710,11 @@
                             <button type="submit"
                                     class="btn btn-primary float-right ml-3">{{trans('messages.Save')}}</button>
                                     
-                            @php($language=\App\Model\BusinessSetting::where('type','pnc_language')->first())
-                            @php($language = $language->value ?? null)
+                            @php($language_obj = \App\Model\BusinessSetting::where('type','language')->first())
+                            @php($lang_obj = json_decode($language_obj->value, true) ?? null)
+                            @php($languageList = array_map(fn($lang):String => $lang['code'], $lang_obj))
+                            @php($language = json_encode($languageList))
+                            
                             <input type="hidden" id="txt_languages" value="{{$language}}">
                         </form>
                     </div>

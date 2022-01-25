@@ -132,23 +132,27 @@
                     @csrf
                     <div class="card">
                         <div class="card-header">
-                            @php($language=\App\Model\BusinessSetting::where('type','pnc_language')->first())
-                            @php($language = $language->value ?? null)
-                            @php($default_lang = 'en')
+                            @php($language_obj=\App\Model\BusinessSetting::where('type','language')->first())
+                            @php($languageList = json_decode($language_obj->value, true))
 
-                            @php($default_lang = json_decode($language)[0])
+                            @php($default_lang = 'en')
+                            @php($default_lang_obj = \App\Model\BusinessSetting::where('type','default_language')->first())
+                            @php($default_lang = $default_lang_obj->value)
+
                             <ul class="nav nav-tabs mb-4">
-                                @foreach(json_decode($language) as $lang)
+                                @foreach($languageList as $langArr)
+                                @php($lang = $langArr['code'])
                                     <li class="nav-item">
                                         <a class="nav-link lang_link {{$lang == $default_lang? 'active':''}}" href="#"
-                                           id="{{$lang}}-link">{{\App\CPU\Helpers::get_language_name($lang).'('.strtoupper($lang).')'}}</a>
+                                           id="{{$lang}}-link">{{$langArr['name'].'('.strtoupper($lang).')'}}</a>
                                     </li>
                                 @endforeach
                             </ul>
                         </div>
 
                         <div class="card-body">
-                            @foreach(json_decode($language) as $lang)
+                            @foreach($languageList as $langArr)
+                            @php($lang = $langArr['code'])
                                 <div class="{{$lang != $default_lang ? 'd-none':''}} lang_form"
                                      id="{{$lang}}-form">
                                     <div class="form-group">

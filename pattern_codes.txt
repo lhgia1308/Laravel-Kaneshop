@@ -1,4 +1,16 @@
+pnc_language
 
+@php($language_obj = \App\Model\BusinessSetting::where('type','language')->first())
+@php($lang_obj = json_decode($language_obj->value, true) ?? null)
+@php($languageList = array_map(fn($lang):String => $lang['code'], $lang_obj))
+
+@php($language = json_encode($languageList))
+
+@php($default_lang_obj = \App\Model\BusinessSetting::where('type','default_language')->first())
+@php($default_lang = $default_lang_obj->value)
+
+$new_id = DB::table('translations')->max('id') + 1;
+\App\CPU\Helpers::get_language_name($lang);
 
 ***Config run multi website with Xampp
 - Open file httpd.conf in C:\xampp\apache\conf
