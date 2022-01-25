@@ -34,7 +34,6 @@ class SubCategoryController extends Controller
         {
             if($request->name[$index] && $key != 'en')
             {
-                
                 Translation::updateOrInsert(
                     [
                         'id' => $new_id++,

@@ -489,27 +489,58 @@ class ProductController extends BaseController
             return response()->json([], 200);
         } else {
             $product->save();
+            $data = [];
+            $new_id = DB::table('translations')->max('id') + 1;
             foreach ($request->lang as $index => $key) {
                 if ($request->name[$index] && $key != 'en') {
-                    Translation::updateOrInsert(
-                        [
+                    $trans_obj = Translation::where(['translationable_type' => 'App\Model\Product', 'translationable_id' => $id, 'locale' => $key, 'key' => 'name'])->first();
+                    if(isset($trans_obj)) {
+                        Translation::updateOrInsert(
+                            [
+                                'translationable_type' => 'App\Model\Product',
+                                'translationable_id' => $product->id,
+                                'locale' => $key,
+                                'key' => 'name'],
+                            ['value' => $request->name[$index]]
+                        );
+                    }
+                    else {
+                        array_push($data, array(
+                            'id' => $new_id++,
                             'translationable_type' => 'App\Model\Product',
                             'translationable_id' => $product->id,
                             'locale' => $key,
-                            'key' => 'name'],
-                        ['value' => $request->name[$index]]
-                    );
+                            'key' => 'name',
+                            'value' => $request->name[$index],
+                        ));
+                    }
                 }
                 if ($request->description[$index] && $key != 'en') {
-                    Translation::updateOrInsert(
-                        [
+                    $trans_obj = Translation::where(['translationable_type' => 'App\Model\Product', 'translationable_id' => $id, 'locale' => $key, 'key' => 'description'])->first();
+                    if(isset($trans_obj)) {
+                        Translation::updateOrInsert(
+                            [
+                                'translationable_type' => 'App\Model\Product',
+                                'translationable_id' => $product->id,
+                                'locale' => $key,
+                                'key' => 'description'],
+                            ['value' => $request->description[$index]]
+                        );
+                    }
+                    else {
+                        array_push($data, array(
+                            'id' => $new_id++,
                             'translationable_type' => 'App\Model\Product',
                             'translationable_id' => $product->id,
                             'locale' => $key,
-                            'key' => 'description'],
-                        ['value' => $request->description[$index]]
-                    );
+                            'key' => 'description',
+                            'value' => $request->name[$index],
+                        ));
+                    }
                 }
+            }
+            if (count($data)) {
+                Translation::insert($data);
             }
             Toastr::success('Product updated successfully.');
             return back();
