@@ -78,17 +78,17 @@ class Helpers
                     ]);
                 }
                 $item['variation'] = $variation;
-                if (count($item['translations'])) {
-                    foreach ($item['translations'] as $translation) {
-                        if ($translation->key == 'name') {
-                            $item['name'] = $translation->value;
-                        }
-                        if ($translation->key == 'description') {
-                            $item['details'] = $translation->value;
-                        }
-                    }
-                }
-                unset($item['translations']);
+                // if (count($item['translations'])) {
+                //     foreach ($item['translations'] as $translation) {
+                //         if ($translation->key == 'name') {
+                //             $item['name'] = $translation->value;
+                //         }
+                //         if ($translation->key == 'description') {
+                //             $item['details'] = $translation->value;
+                //         }
+                //     }
+                // }
+                // unset($item['translations']);
                 array_push($storage, $item);
             }
             $data = $storage;
