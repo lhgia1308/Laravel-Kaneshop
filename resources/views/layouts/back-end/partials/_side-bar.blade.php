@@ -464,7 +464,7 @@
                     <!--support section ends here-->
 
                         @if(\App\CPU\Helpers::module_permission_check('business_settings'))
-                            <li class="nav-item {{(Request::is('admin/currency/view') || Request::is('admin/business-settings/language*') || Request::is('admin/business-settings/shipping-method*') || Request::is('admin/business-settings/payment-method') || Request::is('admin/business-settings/seller-settings*'))?'scroll-here':''}}">
+                            <li class="nav-item {{(Request::is('admin/currency/view') || Request::is('admin/business-settings/*'))?'scroll-here':''}}">
                                 <small class="nav-subtitle" title="">{{trans('messages.business_settings')}}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
@@ -516,7 +516,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/business-settings/language*')?'active':''}}">
+                            <li class="navbar-vertical-aside-has-menu {{(Request::is('admin/business-settings/language*') || Request::is('admin/business-settings/app-language*'))?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                    href="javascript:">
                                     <i class="tio-book-opened nav-icon"></i>
@@ -525,7 +525,7 @@
                                     </span>
                                 </a>
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
-                                    style="display: {{Request::is('admin/business-settings/language*')?'block':'none'}}">
+                                    style="display: {{(Request::is('admin/business-settings/language*') || Request::is('admin/business-settings/app-language*'))?'block':'none'}}">
                                     <li class="nav-item {{Request::is('admin/business-settings/language/manage')?'active':''}}">
                                         <a class="nav-link"
                                            href="{{route('admin.business-settings.language.index-manage')}}">
@@ -535,15 +535,6 @@
                                             </span>
                                         </a>
                                     </li>
-                                    <!-- <li class="nav-item {{Request::is('admin/business-settings/language/app')?'active':''}}">
-                                        <a class="nav-link"
-                                           href="{{route('admin.business-settings.language.index-app')}}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
-                                            <span class="text-truncate">
-                                              {{trans('messages.for_data_entry')}}
-                                            </span>
-                                        </a>
-                                    </li> -->
                                     <li class="nav-item {{Request::is('admin/business-settings/language')?'active':''}}">
                                         <a class="nav-link"
                                            href="{{route('admin.business-settings.language.index')}}">

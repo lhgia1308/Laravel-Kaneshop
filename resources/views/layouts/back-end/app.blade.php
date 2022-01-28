@@ -67,6 +67,10 @@
         .qcont:first-letter {
             text-transform: capitalize
         }
+
+        .d-none {
+            display: none;
+        }
     </style>
     <script
         src="{{asset('public/assets/back-end')}}/vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js"></script>

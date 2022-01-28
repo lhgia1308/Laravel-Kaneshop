@@ -1,5 +1,16 @@
 
 
+
+<li class="nav-item {{Request::is('admin/business-settings/language/app')?'active':''}}">
+    <a class="nav-link"
+        href="{{route('admin.business-settings.language.index-app')}}">
+        <span class="tio-circle nav-indicator-icon"></span>
+        <span class="text-truncate">
+            {{trans('messages.for_data_entry')}}
+        </span>
+    </a>
+</li>
+
 @php($language_obj = \App\Model\BusinessSetting::where('type','language')->first())
 @php($lang_obj = json_decode($language_obj->value, true) ?? null)
 @php($languageList = array_map(fn($lang):String => $lang['code'], $lang_obj))
