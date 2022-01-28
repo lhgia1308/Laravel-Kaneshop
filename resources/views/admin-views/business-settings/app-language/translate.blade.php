@@ -137,6 +137,13 @@
                                     </tr>
                                 @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3">
+                                            <input type="button" onclick="addNewTranslation()" class="btn btn-primary" value="Add new key, value">
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -165,6 +172,22 @@
                 "pageLength": 1000
             });
         });
+
+        function addNewTranslation() {
+            var newTr = `
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="text" class="form-control" name="key[]" value="" placeholder="Key name">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="value[]" value="" placeholder="Value">
+                    </td>
+                </tr>
+            `;
+            $('#dataTable tbody').append(newTr);
+            // console.log(newTr);
+        }
 
         $(document).on('change', '.status', function () {
             var id = $(this).attr("id");
