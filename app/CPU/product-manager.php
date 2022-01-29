@@ -37,11 +37,28 @@ class ProductManager
     public static function search_products($name, $limit = 10, $offset = 1)
     {
         $key = explode(' ', $name);
-        $paginator = Product::active()->with(['rating'])->where(function ($q) use ($key) {
-            foreach ($key as $value) {
-                $q->orWhere('name', 'like', "%{$value}%");
-            }
-        })->paginate($limit, ['*'], 'page', $offset);
+        $GLOBALS['lang'] = app()->getLocale();
+        $GLOBALS['value'] = $name;
+
+        if($GLOBALS['lang'] == 'en') {
+            $paginator = Product::active()->with(['rating'])->where(function ($q) use ($key) {
+                foreach ($key as $value) {
+                    $q->orWhere('name', 'like', "%{$value}%");
+                }
+            })->paginate($limit, ['*'], 'page', $offset);
+        }
+        else {
+            $paginator = Product::active()->with(['rating'])
+            ->join('translations', function($q) {
+                $q->on('products.id', '=', 'translations.translationable_id')
+                ->where([
+                    ['translations.key', '=', 'name']
+                    ,['translations.locale', '=', $GLOBALS['lang']]
+                    ,['translations.value', 'like', "%{$GLOBALS['value']}%"]
+                ]);
+            })
+            ->paginate($limit, ['products.*'], 'page', $offset);
+        }
 
         return [
             'total_size' => $paginator->total(),
