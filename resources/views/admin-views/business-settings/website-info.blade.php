@@ -799,6 +799,31 @@
                     </div>
                 </div>
             </div>
+            <!-- End Generate migration files -->
+            <!-- App version -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body" style="padding: 20px">
+                        @php($app_version=\App\Model\BusinessSetting::where(['type'=>'app_version'])->first())
+                        @if(isset($app_version))
+                            @php($data = $app_version['value'])
+                        @else
+                            @php($data = '1.0.2')
+                        @endif
+                        <h4>{{trans('messages.app_version')}}</h4>
+                        <form action="{{route('admin.business-settings.web-config.update-app-version')}}" method="post"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <input type="text" name="app_version" value="{{ $data }}" class="form-control">
+                            </div>
+                            <button type="submit"
+                                    class="btn btn-primary float-right ml-3">{{trans('messages.Save')}}</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- End App version -->
         </div>
     </div>
 @endsection

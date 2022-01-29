@@ -329,6 +329,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
                 Route::get('/', 'BusinessSettingsController@companyInfo')->name('index');
                 Route::post('update-colors', 'BusinessSettingsController@update_colors')->name('update-colors');
                 Route::post('update-font', 'BusinessSettingsController@update_font')->name('update-font');
+                Route::post('update-app-version', 'BusinessSettingsController@update_app_version')->name('update-app-version');
                 Route::post('update_default_statistic_type', 'BusinessSettingsController@update_default_statistic_type')->name('update_default_statistic_type');
                 Route::post('update-language', 'BusinessSettingsController@update_language')->name('update-language');
                 Route::post('update-company', 'BusinessSettingsController@updateCompany')->name('company-update');

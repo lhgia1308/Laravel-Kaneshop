@@ -43,6 +43,7 @@ class ConfigController extends Controller
             'maintenance_mode' => (boolean)Helpers::get_business_settings('maintenance_mode') ?? 0,
             'app_language_list' => Helpers::get_business_settings('app_language'),
             'app_default_language' => Helpers::get_business_settings('app_default_language'),
+            'app_version' => Helpers::get_business_settings('app_version'),
         ]);
     }
 }

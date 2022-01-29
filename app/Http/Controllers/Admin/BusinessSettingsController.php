@@ -431,6 +431,24 @@ class BusinessSettingsController extends Controller
         Toastr::success('Font  updated!');
         return back();
     }
+    public function update_app_version(Request $request)
+    {
+        $app_version = BusinessSetting::where('type', 'app_version')->first();
+        if (isset($app_version)) {
+            BusinessSetting::where('type', 'app_version')->update([
+                'value' => $request['app_version'],
+            ]);
+        } else {
+            $new_id = DB::table('business_settings')->max('id') + 1;
+            DB::table('business_settings')->insert([
+                'id' => $new_id,
+                'type' => 'app_version',
+                'value' => $request['app_version'],
+            ]);
+        }
+        Toastr::success('App version  updated!');
+        return back();
+    }
 
     public function update_default_statistic_type(Request $request) {
         // var_dump($request['sel_statistic_type']);
