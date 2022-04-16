@@ -21,6 +21,7 @@
 @php($default_lang = $default_lang_obj->value)
 
 $new_id = DB::table('translations')->max('id') + 1;
+$new_id = Brand::max('id') + 1;
 \App\CPU\Helpers::get_language_name($lang);
 
 ***Config run multi website with Xampp
