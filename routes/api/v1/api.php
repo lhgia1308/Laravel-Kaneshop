@@ -59,6 +59,15 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
         Route::delete('delete', 'BrandController@delete_brand');
     });
 
+    Route::group(['prefix' => 'brand2'], function () {
+        Route::get('list', 'BrandController@get_list');
+        Route::get('products/{brand_id}', 'BrandController@get_products');
+        Route::post('add', 'BrandController@add_new_brand2');
+        Route::post('update', 'BrandController@update_brand2');
+        Route::put('update_status', 'BrandController@update_status');
+        Route::delete('delete', 'BrandController@delete_brand2');
+    });
+
     Route::group(['prefix' => 'flash-deals'], function () {
         Route::get('/', 'FlashDealController@get_flash_deal');
         Route::get('products/{deal_id}', 'FlashDealController@get_products');
