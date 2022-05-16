@@ -128,7 +128,7 @@ class BrandController extends Controller
                     'name' => $request->name
                 ];
 
-                if ($request->has('image')) {
+                if (isset($request->file('image'))) {
                     //Delete old image
                     $rs = ImageManager::delete('brand/' . $brand->image);
                     //Add a new image
